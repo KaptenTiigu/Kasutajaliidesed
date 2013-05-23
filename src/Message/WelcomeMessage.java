@@ -9,8 +9,8 @@ public class WelcomeMessage implements Message {
 	private String playerName;
 	//private ArrayList<String> players;
 	
-	public WelcomeMessage (int address/*, ArrayList<String> players*/){
-		playerName = "Player " + address;
+	public WelcomeMessage (String name){
+		playerName = name;
 		//this.players = players;
 	}
 

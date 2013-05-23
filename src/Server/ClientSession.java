@@ -15,8 +15,7 @@ import java.util.Iterator;
 import Game.Card;
 import Game.Player;
 import Message.Message;
-import Message.ServerCardMessage;
-import Message.TextMessage;
+import Message.WelcomeMessage;
 import Message.serverCardMessage;
 
 
@@ -36,10 +35,11 @@ public class ClientSession extends Thread {
 		socket = s;
 		outQueue = out;
 		activeSessions = as;
+		netOut = new ObjectOutputStream(
+				socket.getOutputStream());
+		netOut.flush();
 		netIn = new ObjectInputStream(
 					socket.getInputStream());
-		netOut = new ObjectOutputStream(
-					socket.getOutputStream());
 		System.out.println( "ClientSession " + this + " stardib..." );
 		start();
 	}
@@ -48,19 +48,28 @@ public class ClientSession extends Thread {
 		try {
 			//netOut.println("Teretulemast jutustama!");
 			//netOut.println("Palun ytle oma nimi:");
-			incomingObject = netIn.readObject(); 	// blocked - ootab kliendi nime
-			if(incomingObject != null) {
+			System.out.println("minu nimi on:" + getName());
+			activeSessions.addSession(this);
+			sendMessage(new WelcomeMessage(getName()));
+			
+			//incomingObject = netIn.readObject(); 	// blocked - ootab kliendi nime
+			/*if(incomingObject != null) {
 				incomingMessage = (Message) incomingObject;
-				super.setName(incomingMessage.get)
+				//super.setName(incomingMessage.get)
 				activeSessions.addSession(this); 	// registreerime end aktiivsete seansside loendis
-				outgoingMessage = new TextMessage(name + " tuli sisse...");
+				//outgoingMessage = new TextMessage(name + " tuli sisse...");
 				outQueue.addMessage(outgoingMessage); 			// teatame sellest kõigile
-			}
-			super.setName(name); 				// anname endale nime
+			}*/
+			//super.setName(name); 				// anname endale nime
 			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
-				incomingObject = netIn.readObject();		// blocked...
-				incomingMessage = (Message) incomingObject;
-				incomingMessage.onReceive(this);
+				try {
+					incomingObject = netIn.readObject();
+					incomingMessage = (Message) incomingObject;
+					incomingMessage.onReceive(this);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		// blocked...
 				
 				//netIn.
 				
@@ -87,11 +96,15 @@ public class ClientSession extends Thread {
 				}*/
 				
 			} 									// **************************************
-			outgoingMessage = new TextMessage(getName() + " lahkus...");									
-			outQueue.addMessage(outgoingMessage);
+			
+			///KLIENT LAHKUB SIIS SIIN MIDAGI
+			
+			//outgoingMessage = new TextMessage(getName() + " lahkus...");									
+			//outQueue.addMessage(outgoingMessage);
 			
 		} catch (IOException e) {
-			outgoingMessage = new TextMessage(getName() + " - avarii...");		
+			System.out.println("CATCH");
+			//outgoingMessage = new TextMessage(getName() + " - avarii...");		
 			outQueue.addMessage(outgoingMessage);
 		} finally {
 			try {
@@ -103,7 +116,6 @@ public class ClientSession extends Thread {
 	public void sendMessage(Message msg) {
 		try {
 			if (!socket.isClosed()) {
-				/***/
 				netOut.writeObject(msg);
 			} else {
 				throw new IOException(); 			// tegelikult: CALL catch()

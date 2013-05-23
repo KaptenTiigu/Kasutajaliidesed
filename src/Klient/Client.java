@@ -55,23 +55,15 @@ public class Client {
 			SocketListener l = new SocketListener(socket, netIn, inQueue);
 			l.start();
 			
-			do { // JabberClient elutsükli põhiosa **********************
-				/*System.out.println("Sisesta sõnum ja vajuta ENTER; lõpetamiseks toksi END: ");
-				System.out.println("Saabunud sõnumite lugemiseks vajuta ENTER");
-				
-				msg = stdin.readLine(); 						// blocked...
-				// System.out.println( "Kuulaja olek = " + k.isAlive() ); 	// debugging...
-				
-				if (msg.length() > 0)
-					netOut.println(msg); 						// saadame oma sõnumi serverisse
-				*/
-				if (!inQueue.isEmpty()) { 						// kas on midagi saabunud?
+			do { 
+				if (!inQueue.isEmpty()) { 	// kas on midagi saabunud?
+					System.out.println("pole tyhi");
 					synchronized (inQueue) { 					// lukku !!!
 						Iterator<Message> incoming = inQueue.iterator();
 						while (incoming.hasNext()) {
 							System.out.println(">> " + incoming.next());
 							//tee midagi sõnumiga
-							
+							System.out.println("uus sõnum");
 							incoming.remove();
 						}
 					}

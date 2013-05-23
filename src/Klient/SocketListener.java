@@ -24,9 +24,11 @@ class SocketListener extends Thread {
 			while (true) { 		
 				Object fromServer = netIn.readObject(); 				// blocked...
 				if (fromServer != null) {
+					System.out.println("UUS SÕNUM");
 					Message message = (Message)fromServer;
 					synchronized (inQueue) { 					// lukku!
 						inQueue.add(message);
+						System.out.println("UUS SÕNUM2");
 					}
 				}
 			}

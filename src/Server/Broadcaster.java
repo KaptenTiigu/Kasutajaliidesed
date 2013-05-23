@@ -18,23 +18,21 @@ class Broadcaster extends Thread {
 		while (true) {  // Levitaja on igavene...
 			Message message = outQueue.getMessage(); 				// blocked
 			synchronized (activeSessions) { 				// ActiveSessions lukku!
-				Iterator<ClientSession> active = activeSessions.iterator();
-				
+				Iterator<ClientSession> active = activeSessions.iterator();			
 				while (active.hasNext()) {
 					ClientSession cli = active.next();
-					Player adressaat = message.getAdress();
+					String adressaat = message.getAdress();
 					
-					if(cli.getName().equals(adressaat.getName())) {
+					if(cli.getName().equals(adressaat)) {
 						cli.sendMessage(message);
+						System.out.println("Saadan sonumit!");
 					}
 					if (adressaat == null) {
 						cli.sendMessage(message);
 					}
 					if (!cli.isAlive()) {
 						active.remove(); 		// ;-)
-					}/* else { 
-						cli.sendMessage(s);
-					}*/
+					}
 				}
 			}
 		}

@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Server {
 	private static final int PORT = 8888;
-	private static int playerNumber =0;
+	private static int playerNumber = 1;
 	//private ArrayList<String> names = new ArrayList<String>(Arrays.asList("Player 1", "Player 2", "Player 3"));
 
 	public static void main(String[] args) throws IOException {
@@ -29,7 +29,13 @@ public class Server {
 				Socket sock = serv.accept(); 				// blocked!
 				try {
 					//uUE KLIENDI JAOKS UUE LÕIME TEGEMINE
+					/*System.out.println("ALGAB");
+					System.out.println("socket" + sock);
+					System.out.println("outbondmessages" + outQueue);
+					System.out.println("activesessions"+ activeSessions);
+					System.out.println("playerNumber"+playerNumber);*/
 					new ClientSession(sock, outQueue, activeSessions, playerNumber++); // sh. ClientSession.start()
+					System.out.println("Tehtud :)");
 				} catch (IOException e) {
 					System.out.println("Socketi loomise avarii :(");
 					sock.close();
