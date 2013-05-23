@@ -27,8 +27,8 @@ class SocketListener extends Thread {
 					System.out.println("UUS SÕNUM");
 					Message message = (Message)fromServer;
 					synchronized (inQueue) { 					// lukku!
-						inQueue.add(message);
-						System.out.println("UUS SÕNUM2");
+						inQueue.add(message);		
+						if(!inQueue.isEmpty())System.out.println("UUS SÕNUM2");
 					}
 				}
 			}
@@ -44,6 +44,11 @@ class SocketListener extends Thread {
 				}
 			} catch (IOException ee) {}
 		} 
+	}
+	public LinkedList<Message> newMessages(){
+		synchronized (inQueue) {
+			return inQueue;
+		}
 	}
 }
 

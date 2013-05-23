@@ -10,12 +10,16 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import Game.Card;
+import Game.Pile;
 import Game.Player;
 import Message.Message;
 import Message.WelcomeMessage;
+import Message.pickUpCardsMessage;
 import Message.serverCardMessage;
 
 
@@ -28,10 +32,12 @@ public class ClientSession extends Thread {
 	Message outgoingMessage;
 	Message incomingMessage;
 	Object incomingObject;
+	Pile pile;
 	//private OutputStream os;// = s.getOutputStream();  
 	//private ObjectOutputStream oos;
-	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n) throws IOException {
+	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, Pile pile) throws IOException {
 		setName("Player " + n);
+		this.pile = pile;
 		socket = s;
 		outQueue = out;
 		activeSessions = as;
@@ -51,16 +57,7 @@ public class ClientSession extends Thread {
 			System.out.println("minu nimi on:" + getName());
 			activeSessions.addSession(this);
 			sendMessage(new WelcomeMessage(getName()));
-			
-			//incomingObject = netIn.readObject(); 	// blocked - ootab kliendi nime
-			/*if(incomingObject != null) {
-				incomingMessage = (Message) incomingObject;
-				//super.setName(incomingMessage.get)
-				activeSessions.addSession(this); 	// registreerime end aktiivsete seansside loendis
-				//outgoingMessage = new TextMessage(name + " tuli sisse...");
-				outQueue.addMessage(outgoingMessage); 			// teatame sellest kõigile
-			}*/
-			//super.setName(name); 				// anname endale nime
+
 			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
 				try {
 					incomingObject = netIn.readObject();
@@ -70,30 +67,7 @@ public class ClientSession extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}		// blocked...
-				
-				//netIn.
-				
-				/*if (str.equals("WHO")) {
-					Iterator<ClientSession> iterator = activeSessions.iterator();
-					String nimed= "";
-					while (iterator.hasNext()) {
-						ClientSession cli = iterator.next();
-						nimed += cli.getName() + " ";
-					}
-					netOut.println("Serveris on: " + nimed);
-					
-				} else {
-				String outMsg = getName() + " lausub: " + str;
-				
-				if (str == null) {
-					continue; 					// tuli EOF
-				}
-				if (str.equalsIgnoreCase("END")) {
-					break;
-				}
-				
-				outQueue.addMessage(outMsg);
-				}*/
+		
 				
 			} 									// **************************************
 			
@@ -112,11 +86,15 @@ public class ClientSession extends Thread {
 			} catch (IOException e) {}
 		}
 	}
-
+	public void addMessage(Message msg) {
+		outQueue.addMessage(msg);
+	}
 	public void sendMessage(Message msg) {
 		try {
 			if (!socket.isClosed()) {
 				netOut.writeObject(msg);
+				netOut.flush();
+				//outQueue.addMessage(msg);
 			} else {
 				throw new IOException(); 			// tegelikult: CALL catch()
 			}
@@ -129,15 +107,32 @@ public class ClientSession extends Thread {
 	}
 	
 	public Message makeMessage(Card card, Card.Color color) {
-		Message send;
-		if (color != null) {
-			String next = activeSessions.getNextClientSession(this).getName();
-			send = new serverCardMessage(next, card);
-		} else {
-			String next = activeSessions.getNextClientSession(this).getName();
-			send = new serverCardMessage(next, card, color);
+		if (validate(card)) {
+			Message send;
+			if (color != null) {
+				String next = activeSessions.getNextClientSession(this).getName();
+				send = new serverCardMessage(next, card);
+			} else {
+				
+				String next = activeSessions.getNextClientSession(this).getName();
+				send = new serverCardMessage(next, card, color);
+			}
+			return send;
 		}
-		return send;
+		return null; //???????????????
+	}
+	public void pickUpCards(int amount, Card card) {
+		if (validate(card)) {
+			List<Card> cards = new ArrayList<Card>();
+			for (int i=0;i<amount;i++) {
+				cards.add(pile.getCard());
+			}
+			Message send = new pickUpCardsMessage(cards, activeSessions.getNextClientSession(this).getName());
+		}
+}
+	
+	public boolean validate(Card card) {
+		return true;
 	}
 
 }

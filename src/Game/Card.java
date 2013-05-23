@@ -1,6 +1,8 @@
 package Game;
 
-public interface Card {
+import java.io.Serializable;
+
+public interface Card extends Serializable {
 	
 	enum Color {
 		BLUE, RED, GREEN, YELLOW;
@@ -9,6 +11,7 @@ public interface Card {
 		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, DRAWONE, DRAWTWO,
 		WILD, WILDDRAWFOUR;		
 	}
+
 	
 	Color getColor();
 	Value getValue();

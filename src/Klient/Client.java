@@ -14,11 +14,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import Game.Card;
+import Game.NumberCard;
 import Game.Player;
 import Message.Message;
+import Message.WelcomeMessage;
+import Message.clientCardMessage;
 
 
 public class Client {
+	private Player player;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		int port = 8888;
@@ -30,7 +35,7 @@ public class Client {
 		Message message;
 		LinkedList<Message> inQueue = new LinkedList<Message>();  // FIFO
 		InetAddress servAddr = InetAddress.getByName(serveriName);
-		Player player;
+		Player player = null;
 
 		try {
 			socket = new Socket(servAddr, port); 				// Server.PORT
@@ -46,24 +51,45 @@ public class Client {
 					socket.getInputStream());
 			netOut = new ObjectOutputStream(
 					socket.getOutputStream());
-			
-			/*// Klaviatuurisisend:
-			BufferedReader stdin = new BufferedReader(
-					new InputStreamReader(System.in));*/
 
 			// Saabunud sõnumite kuulaja:
 			SocketListener l = new SocketListener(socket, netIn, inQueue);
 			l.start();
-			
+			/*
+			 * ESIMENE TSÜKKEL, OOTAB SERVRIST ENDALE NIME
+			 */
+			while(player==null) {
+				if (!l.newMessages().isEmpty()) {
+					synchronized (l.newMessages()) { 					// lukku !!!
+						Iterator<Message> incoming = l.newMessages().iterator();
+						while (incoming.hasNext()) {
+							player = new Player(incoming.next().getAdress());
+							System.out.println("Häkker");
+							incoming.remove();
+						}
+					}
+				}
+			}
+			/*
+			 *TESTIMINE
+			 */
+			System.out.println("OLEN MÄNGIJA : "+ player.getName());
+			Card c = new NumberCard(Card.Color.BLUE, Card.Value.SIX);
+			player.pickupCard(c);
+			player.playCard(c);
+			Message sonum = new clientCardMessage(c);
+			netOut.writeObject(sonum);
+			/*
+			 * PÕHILINE ELUTSÜKKEL
+			 */
 			do { 
+				inQueue = l.newMessages();
 				if (!inQueue.isEmpty()) { 	// kas on midagi saabunud?
 					System.out.println("pole tyhi");
 					synchronized (inQueue) { 					// lukku !!!
 						Iterator<Message> incoming = inQueue.iterator();
 						while (incoming.hasNext()) {
-							System.out.println(">> " + incoming.next());
-							//tee midagi sõnumiga
-							System.out.println("uus sõnum");
+							incoming.next().onReceive(player);
 							incoming.remove();
 						}
 					}
@@ -75,5 +101,13 @@ public class Client {
 			socket.close();
 		}
 	}
+
+	/*public void makePlayer(Player player) {
+		this.player=player;
+	}
+	
+	public void onReceive(Message message) {
+		message.onReceive(this);
+	}*/
 
 }

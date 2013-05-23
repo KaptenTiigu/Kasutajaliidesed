@@ -25,22 +25,11 @@ public class serverCardMessage implements Message {
 		this.jargmine = next;
 	}
 
-	/*public serverCardMessage(String next, Card card) {
-		// TODO Auto-generated constructor stub
-	}*/
-
 	public serverCardMessage(/*String address, */String jargmine, Card kaart) {
 		this.kaart = kaart;
 		//this.address = address;
 		this.jargmine = jargmine;
 	}
-	/*
-	public void serverCardMessage(String jargmine, Card kaart, Card.Color varv) {
-		this.kaart = kaart;
-		//this.address = address;
-		this.varv = varv;
-		this.jargmine = jargmine;
-	}*/
 	
 	@Override
 	public void onReceive(ClientSession s) {
@@ -49,9 +38,17 @@ public class serverCardMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Client c) {
-		// TODO Auto-generated method stub
-		
+	public void onReceive(Player c) {
+			c.addKillCard(kaart);
+			if (varv != null) {
+				c.addColor(varv);
+			}
+			if (jargmine.equals(c.getName())) {
+				c.setPermission(true);
+			} else {
+				c.setPermission(false);
+			}
+			c.killCard();
 	}
 
 	@Override

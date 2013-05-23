@@ -2,6 +2,7 @@ package Message;
 
 import java.util.ArrayList;
 
+import Game.Player;
 import Klient.Client;
 import Server.ClientSession;
 
@@ -24,9 +25,10 @@ public class WelcomeMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Client c) {
+	public void onReceive(Player c) {
 		// TODO Auto-generated method stub
-		
+		//c.makePlayer(new Player(playerName));
+	
 	}
 	
 	public String getPlayerName() {

@@ -9,6 +9,7 @@ public class Player {
 	private String name;
 	private List<Card> hand = new ArrayList<Card>();
 	private Card kill;
+	private Card.Color specialColor;
 	private boolean permission = false;
 
 	public Player(String name) {
@@ -18,7 +19,15 @@ public class Player {
 	public String getName() {
 		return name;
 	}
-
+	
+	public void addKillCard(Card card) {
+		kill = card;
+	}
+	
+	public void addColor(Card.Color color) {
+		specialColor = color;
+	}
+	
 	public Card playCard(Card card) {
 		hand.remove(card);
 		return card;
@@ -35,5 +44,12 @@ public class Player {
 
 	public void setPermission(boolean permission) {
 		this.permission = permission;
+	}
+	
+	/**
+	 * LIHTSALT TESTIMISE MEETODID
+	 */
+	public void killCard() {
+		System.out.println(kill.getColor() + " " + kill.getValue());
 	}
 }

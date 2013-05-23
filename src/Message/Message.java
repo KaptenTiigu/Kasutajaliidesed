@@ -21,17 +21,18 @@ public interface Message extends Serializable {
 	List<Card> getPickUpCards();
 	Player whoseTurn();
 	Player getAdress();*/
+
+	/**
+	 * Kui server saab kliendi sõnumi vastu
+	 * @param c
+	 */
+	void onReceive(ClientSession s);
 	/**
 	 * Kui klient võtab serveri sõnumi
 	 * 
 	 * @param s - CLientSession
 	 */
-	void onReceive(ClientSession s);
-	/**
-	 * Kui server saab kliendi sõnumi vastu
-	 * @param c
-	 */
-	void onReceive(Client c);
+	void onReceive(Player c);
 	/**
 	 * Meetod tagastab adressaadi.
 	 * @return aadress, kellele sõnu saadetakse

@@ -27,7 +27,7 @@ public class startingPlayersMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Client c) {
+	public void onReceive(Player c) {
 		/**
 		 * Lisab mängijate nimed kusagile kliendi/player objektis,
 		 */

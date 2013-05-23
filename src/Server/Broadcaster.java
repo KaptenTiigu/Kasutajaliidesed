@@ -18,6 +18,7 @@ class Broadcaster extends Thread {
 		while (true) {  // Levitaja on igavene...
 			Message message = outQueue.getMessage(); 				// blocked
 			synchronized (activeSessions) { 				// ActiveSessions lukku!
+				System.out.println("22222");
 				Iterator<ClientSession> active = activeSessions.iterator();			
 				while (active.hasNext()) {
 					ClientSession cli = active.next();
@@ -25,7 +26,7 @@ class Broadcaster extends Thread {
 					
 					if(cli.getName().equals(adressaat)) {
 						cli.sendMessage(message);
-						System.out.println("Saadan sonumit!");
+						//System.out.println("Saadan sonumit!");
 					}
 					if (adressaat == null) {
 						cli.sendMessage(message);

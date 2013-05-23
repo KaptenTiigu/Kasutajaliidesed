@@ -1,5 +1,6 @@
 package Server;
 
+import Game.Pile;
 import Server.ActiveSessions;
 import Server.Broadcaster;
 import Server.ClientSession;
@@ -19,7 +20,7 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		ActiveSessions activeSessions = new ActiveSessions(); //ÜHINE SESSIOONI VÄRK (MÄNGIJATE NIMEKIRI, JNE.)
 		OutboundMessages outQueue = new OutboundMessages(); //SÕNUMITE SAATMINE JA HOIUSTAMINE FIFOS
-
+		Pile pile = new Pile();
 		ServerSocket serv = new ServerSocket(PORT);
 		System.out.println("Server startis...\n Kuulan porti:" + PORT);
 		new Broadcaster(activeSessions, outQueue); // KONTROLLIB JA TEGUTSEB KLIENTI LEIDMISE JA DATA SAATMISEGA
@@ -34,7 +35,7 @@ public class Server {
 					System.out.println("outbondmessages" + outQueue);
 					System.out.println("activesessions"+ activeSessions);
 					System.out.println("playerNumber"+playerNumber);*/
-					new ClientSession(sock, outQueue, activeSessions, playerNumber++); // sh. ClientSession.start()
+					new ClientSession(sock, outQueue, activeSessions, playerNumber++, pile); // sh. ClientSession.start()
 					System.out.println("Tehtud :)");
 				} catch (IOException e) {
 					System.out.println("Socketi loomise avarii :(");

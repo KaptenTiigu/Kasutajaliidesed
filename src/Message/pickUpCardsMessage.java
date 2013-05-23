@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.Card;
+import Game.Player;
 import Klient.Client;
 import Server.ClientSession;
 
@@ -13,7 +14,7 @@ import Server.ClientSession;
  *
  */
 public class pickUpCardsMessage implements Message {
-	private List<Card> kaardid = new ArrayList<Card>();
+	private List<Card> kaardid;
 	private String address;
 	
 	public pickUpCardsMessage(List<Card> kaardid, String address) {
@@ -27,7 +28,10 @@ public class pickUpCardsMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Client c) {
+	public void onReceive(Player c) {
+		for (Card card : kaardid) {
+			c.pickupCard(card);
+		}	
 		/**
 		 * annab kaardid mängijale.
 		 */

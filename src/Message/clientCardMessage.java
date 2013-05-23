@@ -10,15 +10,16 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
+@SuppressWarnings("serial")
 public class clientCardMessage implements Message {
 	private Card kaart;
 	private Card.Color varv;
 	
-	public void ServerCardMessage(Card kaart) {
+	public clientCardMessage(Card kaart) {
 		this.kaart = kaart;
 	}
 	
-	public void ServerCardMessage(Card kaart, Card.Color varv) {
+	public clientCardMessage(Card kaart, Card.Color varv) {
 		this.kaart = kaart;
 		this.varv = varv;
 	}
@@ -28,13 +29,15 @@ public class clientCardMessage implements Message {
 		/**
 		 * server koostab uue sõnumi ja saadab kaardid kõigile teistele.
 		 */
+		System.out.println("SERVER SAI SÕNUMI KÄTTE");
 		Message message = s.makeMessage(kaart, varv);
-		s.sendMessage(message);
+		s.addMessage(message);
+		//s.outQueue.addMessage(msg);
 	}
 
 	@Override
-	public void onReceive(Client c) {
-		
+	public void onReceive(Player c) {
+		//c.Player = new Player("maksim");
 	}
 
 	@Override
