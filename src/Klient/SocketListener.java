@@ -1,31 +1,38 @@
 package Klient;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.Collection;
+import java.util.LinkedList;
+
+import Message.Message;
 
 class SocketListener extends Thread {
-	private BufferedReader netIn;
+	private ObjectInputStream netIn;
 	private Socket socket;
-	private Collection<String> inQueue;
+	private LinkedList<Message> inQueue;
 	
-	public SocketListener(Socket socket, BufferedReader in, Collection<String> inQueue) {
+	public SocketListener(Socket socket, ObjectInputStream in, LinkedList<Message> inQueue) {
 		this.netIn = in;
 		this.socket = socket;
 		this.inQueue = inQueue;
 	}
 
+	@Override
 	public void run() {
 		try {
 			while (true) { 		
-				String str = netIn.readLine(); 				// blocked...
-				synchronized (inQueue) { 					// lukku!
-					inQueue.add(str);
+				Object fromServer = netIn.readObject(); 				// blocked...
+				if (fromServer != null) {
+					Message message = (Message)fromServer;
+					synchronized (inQueue) { 					// lukku!
+						inQueue.add(message);
+					}
 				}
 			}
-
 		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} finally {
 			try {
 				if (!socket.isClosed()) {
@@ -37,3 +44,4 @@ class SocketListener extends Thread {
 		} 
 	}
 }
+

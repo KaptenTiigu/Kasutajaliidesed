@@ -26,6 +26,7 @@ public class WelcomeMessage implements Message {
 	@Override
 	public void onReceive(Client c) {
 		// TODO Auto-generated method stub
+		
 	}
 	
 	public String getPlayerName() {
