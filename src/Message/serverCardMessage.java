@@ -12,6 +12,10 @@ import Server.ClientSession;
  *
  */
 public class serverCardMessage implements Message {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Card kaart;
 	private String address;
 	private Card.Color varv;

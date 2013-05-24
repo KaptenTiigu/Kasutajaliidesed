@@ -14,6 +14,10 @@ import Server.ClientSession;
  *
  */
 public class pickUpCardsMessage implements Message {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Card> kaardid;
 	private String address;
 	
@@ -31,11 +35,9 @@ public class pickUpCardsMessage implements Message {
 	public void onReceive(Player c) {
 		for (Card card : kaardid) {
 			c.pickupCard(card);
-		}	
-		/**
-		 * annab kaardid mängijale.
-		 */
-		
+		}
+		//TESTIMISE EESMÄRGIL
+		c.kaartidePrint();
 	}
 
 	@Override

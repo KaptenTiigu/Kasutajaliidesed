@@ -9,18 +9,37 @@ import Game.Deck;
 import Game.Pile;
 import Game.Player;
 import Game.Card.Color;
+import Message.startingPlayersMessage;
 
 public class UnoGame {
 	private Deck deck;
 	private Pile pile;
 	private Card.Color color;
 	private List<Player> players = new ArrayList<Player>();
+	private OutboundMessages outQueue;
 	
-	public UnoGame() {
+	public UnoGame(OutboundMessages outQueue) {
+		this.outQueue = outQueue;
 		deck = new Deck();
 		deck.makeDeck();
 		deck.shuffle();
 		pile = new Pile();
+	}
+	
+	public synchronized List<Player> startGame() {
+			if (players.size() != 2) {//CPU LIIGA KÕRGE, HETKEL KAHE PLAYERIGA
+				try {
+					System.out.println("jään waitima!");
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			} else {
+				outQueue.addMessage(new startingPlayersMessage(players));
+				this.notifyAll();
+			}			
+			System.out.println("Returnin nüüd");
+			return players;
 	}
 	
 	public void addPileToDeck() {
@@ -42,6 +61,11 @@ public class UnoGame {
 		players.add(p);
 	}
 	
+	/**
+	 * Mängija otsimine nime järgi
+	 * @param name
+	 * @return
+	 */
 	public Player getPlayer(String name) {
 		for(Player p : players) {
 			if(p.getName().equals(name)) {
@@ -51,13 +75,17 @@ public class UnoGame {
 		return null;
 	}
 	
+	/**
+	 * Laualt viimase (pealmise) kaardi saamine
+	 * @return kaart
+	 */
 	public Card getLastPileCard() {
 		List<Card> pileCards = pile.getCards();
 		Card last = pileCards.get(pileCards.size()-1);
 		return last;
 	}
 	
-	public Card giveCard() {
+	public synchronized Card giveCard() {
 		return deck.getCard();
 	}
 	
@@ -77,7 +105,7 @@ public class UnoGame {
 				return kaart.compareCards(card, card.getColor());
 			}
 		}
-		return false;
+		return true;
 	}
 	
 }

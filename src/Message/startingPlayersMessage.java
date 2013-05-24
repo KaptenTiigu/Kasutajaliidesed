@@ -14,6 +14,10 @@ import Server.ClientSession;
  *
  */
 public class startingPlayersMessage implements Message {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Player> mangijad = new ArrayList<Player>();
 
 	public startingPlayersMessage(List<Player> mangijad) {
@@ -28,6 +32,10 @@ public class startingPlayersMessage implements Message {
 
 	@Override
 	public void onReceive(Player c) {
+		System.out.println("startingPlayersMessage kliendis");
+		c.addPlayers(mangijad);
+		System.out.println("startingPlayersMessage kliendis tehtud");
+		c.teisedMangijad();
 		/**
 		 * Lisab mängijate nimed kusagile kliendi/player objektis,
 		 */
@@ -36,7 +44,7 @@ public class startingPlayersMessage implements Message {
 
 	@Override
 	public String getAdress() {
-		// TODO Auto-generated method stub
+		System.out.println("startingPlayersMessage");
 		return null;
 	}
 

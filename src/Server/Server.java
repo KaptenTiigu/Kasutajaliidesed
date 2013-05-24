@@ -24,7 +24,7 @@ public class Server {
 		System.out.println("Server startis...\n Kuulan porti:" + PORT);
 		new Broadcaster(activeSessions, outQueue); // KONTROLLIB JA TEGUTSEB KLIENTI LEIDMISE JA DATA SAATMISEGA
 		
-		UnoGame game = new UnoGame();
+		UnoGame game = new UnoGame(outQueue);
 		try {
 			while (true) { 									// serveri töötsükkel
 				Socket sock = serv.accept(); 				// blocked!

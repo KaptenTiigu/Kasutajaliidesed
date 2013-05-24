@@ -7,6 +7,10 @@ import Klient.Client;
 import Server.ClientSession;
 
 public class WelcomeMessage implements Message {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String playerName;
 	//private ArrayList<String> players;
 	

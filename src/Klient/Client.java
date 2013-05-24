@@ -74,11 +74,11 @@ public class Client {
 			 *TESTIMINE
 			 */
 			System.out.println("OLEN MÄNGIJA : "+ player.getName());
-			Card c = new NumberCard(Card.Color.BLUE, Card.Value.SIX);
+			/*Card c = new NumberCard(Card.Color.BLUE, Card.Value.SIX);
 			player.pickupCard(c);
 			player.playCard(c);
 			Message sonum = new clientCardMessage(c);
-			netOut.writeObject(sonum);
+			netOut.writeObject(sonum);*/
 			/*
 			 * PÕHILINE ELUTSÜKKEL
 			 */

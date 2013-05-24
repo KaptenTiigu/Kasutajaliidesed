@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import Game.Player;
@@ -16,21 +17,24 @@ class Broadcaster extends Thread {
 	}
 	public void run() {
 		while (true) {  // Levitaja on igavene...
+			//System.out.println("true");
 			Message message = outQueue.getMessage(); 				// blocked
+			//System.out.println("true: " + message);
 			synchronized (activeSessions) { 				// ActiveSessions lukku!
-				System.out.println("22222");
 				Iterator<ClientSession> active = activeSessions.iterator();			
 				while (active.hasNext()) {
 					ClientSession cli = active.next();
 					String adressaat = message.getAdress();
-					
-					if(cli.getName().equals(adressaat)) {
-						cli.sendMessage(message);
-						//System.out.println("Saadan sonumit!");
-					}
-					if (adressaat == null) {
-						cli.sendMessage(message);
-					}
+					if (adressaat != null && !adressaat.isEmpty()) {
+						if(cli.getName().equals(adressaat)) {
+							cli.sendMessage(message);
+							break;
+						}
+					} else {
+							System.out.println("mustanahaline: " + message);
+							cli.sendMessage(message);
+						}
+						
 					if (!cli.isAlive()) {
 						active.remove(); 		// ;-)
 					}

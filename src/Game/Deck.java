@@ -17,6 +17,7 @@ public class Deck extends Pile{
 				cards.add(new NumberCard(col, val));
 				//System.out.println(cards.get(cards.size()-1).getValue() + " " + cards.get(cards.size()-1).getColor());
 			}
+			cards.add(new DrawOneCard(col, Card.Value.DRAWONE));
 			cards.add(new DrawTwoCard(col, Card.Value.DRAWTWO));
 			cards.add(new SkipCard(col, Card.Value.SKIP));
 			cards.add(new WildCard(col, Card.Value.WILD));

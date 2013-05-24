@@ -8,6 +8,7 @@ import java.util.List;
 public class Player {
 	private String name;
 	private List<Card> hand = new ArrayList<Card>();
+	private List<String> players = new ArrayList<String>();
 	private Card kill;
 	private Card.Color specialColor;
 	private boolean permission = false;
@@ -50,10 +51,27 @@ public class Player {
 		return hand;
 	}
 	
+	public void addPlayers(List<Player> serverPlayers) {
+		for(Player a : serverPlayers) {
+			if(!a.getName().equals(name))players.add(a.getName());
+		}
+	}
+	
 	/**
 	 * LIHTSALT TESTIMISE MEETODID
 	 */
+	//prindib killcardi
 	public void killCard() {
 		System.out.println(kill.getColor() + " " + kill.getValue());
+	}
+	//prindib käeasolevad kaardid
+	public void kaartidePrint() {
+		for (Card a : hand) {
+			System.out.println(name + ": " + a.getColor() + " " + a.getValue());
+		}
+	}
+	
+	public void teisedMangijad() {
+		System.out.println("Teised mängijad on:" + players);
 	}
 }

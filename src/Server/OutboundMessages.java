@@ -14,12 +14,13 @@ class OutboundMessages {
 
 	public synchronized Message getMessage() { 
 		try {
-			//System.out.println(messages);
-			while (messages.isEmpty())
+			while (messages.isEmpty() || messages==null) {
 				this.wait(); 
+			}			
 		} catch (InterruptedException e) {}
 
 		Message m = messages.getFirst();
+		//System.out.println("sonu: " + m);
 		messages.removeFirst();
 		
 		return m;

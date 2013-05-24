@@ -21,6 +21,7 @@ import Message.Message;
 import Message.WelcomeMessage;
 import Message.pickUpCardsMessage;
 import Message.serverCardMessage;
+import Message.startingPlayersMessage;
 
 
 public class ClientSession extends Thread {
@@ -53,12 +54,12 @@ public class ClientSession extends Thread {
 
 	public void run() {
 		try {
-			//netOut.println("Teretulemast jutustama!");
-			//netOut.println("Palun ytle oma nimi:");
 			System.out.println("minu nimi on:" + getName());
 			activeSessions.addSession(this);
+			//Sisenimise sõnumi saatmine
 			sendMessage(new WelcomeMessage(getName()));
-
+			//Mängualguse sõnumi saatmine
+			startGame();
 			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
 				try {
 					incomingObject = netIn.readObject();
@@ -78,9 +79,9 @@ public class ClientSession extends Thread {
 			//outQueue.addMessage(outgoingMessage);
 			
 		} catch (IOException e) {
-			System.out.println("CATCH");
+			System.out.println("CATCH" + getName());
 			//outgoingMessage = new TextMessage(getName() + " - avarii...");		
-			outQueue.addMessage(outgoingMessage);
+			//outQueue.addMessage(outgoingMessage);
 		} finally {
 			try {
 				socket.close();
@@ -93,13 +94,15 @@ public class ClientSession extends Thread {
 	public void sendMessage(Message msg) {
 		try {
 			if (!socket.isClosed()) {
+				System.out.println("Jou, just kirjutasin" + msg);
 				netOut.writeObject(msg);
-				netOut.flush();
+				netOut.reset();
 				//outQueue.addMessage(msg);
 			} else {
 				throw new IOException(); 			// tegelikult: CALL catch()
 			}
 		} catch (IOException eee) {
+			System.out.println("AVARII");
 			//outQueue.addMessage(new TextMessage(getName() + " - avarii..."));
 			try {
 				socket.close();
@@ -122,8 +125,20 @@ public class ClientSession extends Thread {
 		}
 		return null; //???????????????
 	}
-	
-	public List<Card> pickUpCards(int amount, Card card) {
+	/**
+	 * Mängu alguses saadetakse mängijatele 5 kaarti.
+	 */
+	public void startGame() {
+		game.startGame();
+		System.out.println(player + " lisan kaarte");
+		addMessage(new pickUpCardsMessage(pickUpCards(5), this.getName()/*activeSessions.getNextClientSession(this).getName()*/));
+	}
+	/**
+	 * Meetod tagastab desckits võetud kaartide listi
+	 * @param amount - võetav kaartide arv
+	 * @return kaartide nimekiri
+	 */
+	public List<Card> pickUpCards(int amount) {
 		List<Card> cards = new ArrayList<Card>();
 		for (int i=0;i<amount;i++) {
 			cards.add(game.giveCard());

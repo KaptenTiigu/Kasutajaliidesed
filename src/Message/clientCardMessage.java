@@ -10,8 +10,11 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
-@SuppressWarnings("serial")
 public class clientCardMessage implements Message {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Card kaart;
 	private Card.Color varv;
 	
