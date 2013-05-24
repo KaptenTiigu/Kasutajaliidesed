@@ -1,21 +1,19 @@
 package Game;
 
+public class WildCard extends Card{
 
-public class NumberCard extends Card {
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public NumberCard(Color color, Value value) {
-		super(color, value);
+	public WildCard(Color col, Value val) {
+		super(col, val);
 	}
-
+	
 	@Override
 	public void action() {
 		
 	}
-
+	
 }
-

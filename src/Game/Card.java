@@ -2,19 +2,43 @@ package Game;
 
 import java.io.Serializable;
 
-public interface Card extends Serializable {
+public abstract class Card implements Serializable{
 	
-	enum Color {
+	private static final long serialVersionUID = 1L;
+	public enum Color {
 		BLUE, RED, GREEN, YELLOW;
 	}
-	enum Value {
-		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, DRAWONE, DRAWTWO,
+	public enum Value {
+		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, DRAWTWO,
 		WILD, WILDDRAWFOUR;		
 	}
-
 	
-	Color getColor();
-	Value getValue();
-	boolean compareCards(Card card, Color color);
-	void action();
+	private Color color;
+	private Value value;
+	
+	public Card(Color col, Value val) {
+		this.color = col;
+		this.value = val;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	public Value getValue(){
+		return value;
+	}
+	public boolean compareCards(Card card, Color col) {
+		if (col == null) {
+			if (value.compareTo(card.getValue()) == 0 || color.compareTo(card.getColor()) == 0) {
+				return true;
+			}
+			return false;
+		} else {
+			if (color.compareTo(col) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public void action() {}
 }

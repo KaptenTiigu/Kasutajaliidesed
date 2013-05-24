@@ -32,21 +32,22 @@ public class ClientSession extends Thread {
 	Message outgoingMessage;
 	Message incomingMessage;
 	Object incomingObject;
-	Pile pile;
-	//private OutputStream os;// = s.getOutputStream();  
-	//private ObjectOutputStream oos;
-	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, Pile pile) throws IOException {
+	private UnoGame game;
+	private Player player = new Player(getName());
+	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, UnoGame game) throws IOException {
 		setName("Player " + n);
-		this.pile = pile;
 		socket = s;
 		outQueue = out;
 		activeSessions = as;
+		this.game = game;
 		netOut = new ObjectOutputStream(
 				socket.getOutputStream());
 		netOut.flush();
 		netIn = new ObjectInputStream(
 					socket.getInputStream());
-		System.out.println( "ClientSession " + this + " stardib..." );
+		System.out.println( "ClientSession " + this + " stardib..." );	
+		game.addPlayer(player);
+		
 		start();
 	}
 
@@ -58,7 +59,7 @@ public class ClientSession extends Thread {
 			activeSessions.addSession(this);
 			sendMessage(new WelcomeMessage(getName()));
 
-			while (true) { 						// Kliendisessiooni elutsÃ¼kli pÃµhiosa ***
+			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
 				try {
 					incomingObject = netIn.readObject();
 					incomingMessage = (Message) incomingObject;
@@ -121,18 +122,24 @@ public class ClientSession extends Thread {
 		}
 		return null; //???????????????
 	}
-	public void pickUpCards(int amount, Card card) {
-		if (validate(card)) {
+	
+	public List<Card> pickUpCards(int amount, Card card) {
+		List<Card> cards = new ArrayList<Card>();
+		for (int i=0;i<amount;i++) {
+			cards.add(game.giveCard());
+		}
+		return cards;
+		/*if (validate(card)) {
 			List<Card> cards = new ArrayList<Card>();
 			for (int i=0;i<amount;i++) {
-				cards.add(pile.getCard());
+				cards.add(game.giveCard());
 			}
 			Message send = new pickUpCardsMessage(cards, activeSessions.getNextClientSession(this).getName());
-		}
+		}*/
 }
 	
 	public boolean validate(Card card) {
-		return true;
+		return game.validateCard(player, card);
 	}
 
 }

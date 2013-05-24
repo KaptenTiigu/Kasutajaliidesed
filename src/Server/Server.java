@@ -1,6 +1,5 @@
 package Server;
 
-import Game.Pile;
 import Server.ActiveSessions;
 import Server.Broadcaster;
 import Server.ClientSession;
@@ -14,29 +13,24 @@ import java.util.Arrays;
 
 public class Server {
 	private static final int PORT = 8888;
-	private static int playerNumber = 1;
+	private static int playerNumber =0;
 	//private ArrayList<String> names = new ArrayList<String>(Arrays.asList("Player 1", "Player 2", "Player 3"));
 
 	public static void main(String[] args) throws IOException {
 		ActiveSessions activeSessions = new ActiveSessions(); //ÜHINE SESSIOONI VÄRK (MÄNGIJATE NIMEKIRI, JNE.)
 		OutboundMessages outQueue = new OutboundMessages(); //SÕNUMITE SAATMINE JA HOIUSTAMINE FIFOS
-		Pile pile = new Pile();
+
 		ServerSocket serv = new ServerSocket(PORT);
 		System.out.println("Server startis...\n Kuulan porti:" + PORT);
 		new Broadcaster(activeSessions, outQueue); // KONTROLLIB JA TEGUTSEB KLIENTI LEIDMISE JA DATA SAATMISEGA
 		
+		UnoGame game = new UnoGame();
 		try {
 			while (true) { 									// serveri töötsükkel
 				Socket sock = serv.accept(); 				// blocked!
 				try {
 					//uUE KLIENDI JAOKS UUE LÕIME TEGEMINE
-					/*System.out.println("ALGAB");
-					System.out.println("socket" + sock);
-					System.out.println("outbondmessages" + outQueue);
-					System.out.println("activesessions"+ activeSessions);
-					System.out.println("playerNumber"+playerNumber);*/
-					new ClientSession(sock, outQueue, activeSessions, playerNumber++, pile); // sh. ClientSession.start()
-					System.out.println("Tehtud :)");
+					new ClientSession(sock, outQueue, activeSessions, ++playerNumber, game); // sh. ClientSession.start()
 				} catch (IOException e) {
 					System.out.println("Socketi loomise avarii :(");
 					sock.close();

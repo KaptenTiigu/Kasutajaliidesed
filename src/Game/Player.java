@@ -46,6 +46,10 @@ public class Player {
 		this.permission = permission;
 	}
 	
+	public List<Card> getCards() {
+		return hand;
+	}
+	
 	/**
 	 * LIHTSALT TESTIMISE MEETODID
 	 */
