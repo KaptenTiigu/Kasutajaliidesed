@@ -164,7 +164,7 @@ public class Player {
 			System.out.println(name + ": " + a.getColor() + " " + a.getValue());
 		}
 	}
-	
+	//tagastab teised mängijad
 	public void teisedMangijad() {
 		System.out.println(name +">>Teised mängijad on:" + players);
 	}

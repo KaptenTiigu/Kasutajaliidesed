@@ -62,7 +62,7 @@ public class UnoGame {
 	}
 	
 	/**
-	 * Enda käigu kontrollimine
+	 * Enda käigu kontrollimine || waitimisega olid probleemid, praegu ei kasutata
 	 * @param player - mängija
 	 */
 	public void checkMyTurn(Player player) {
@@ -128,6 +128,11 @@ public class UnoGame {
 			}
 		}
 	}*/
+	/**
+	 * Mängija saamine listist
+	 * @param player - mängija
+	 * @return mängija (listist)
+	 */
 	public Player getPlayer(Player player) {
 		for (Player a : players) {
 			if(a == player) {
@@ -162,6 +167,10 @@ public class UnoGame {
 		players.add(p);
 	}
 	
+	/**
+	 * Tagastab mängija nime, kelle kord on käia.
+	 * @return
+	 */
 	public String whoseTurn() {
 		return whoseTurn;
 	}
@@ -185,6 +194,7 @@ public class UnoGame {
 	 */
 	public Card getLastPileCard() {
 		List<Card> pileCards = pile.getCards();
+		if (pileCards.isEmpty()) throw new ArrayIndexOutOfBoundsException();
 		Card last = pileCards.get(pileCards.size()-1);
 		return last;
 	}
@@ -200,6 +210,11 @@ public class UnoGame {
 		b.pickupCard(a);
 		return a;
 	}
+	/**
+	 * MINGI MÕTTETU MEETOD, AINULT TESTIMISEKS
+	 * Mängija käes olevate kaartide tagastamine
+	 * @param player kaardid.
+	 */
 	public synchronized void getPlayerCards(Player player) {
 		Player b = getPlayer(player);
 		System.out.println(b.getCards());
@@ -211,16 +226,24 @@ public class UnoGame {
 	 * @return true, kui kõik korras, false kui midagi on valesti
 	 */
 	public boolean validateCard(Player player, Card card) {
-		/*Player play = getPlayer(player.getName());
+		Player play = getPlayer(player.getName());
 		List<Card> hand = play.getCards();
 		// Kas kaart on mängijal käes
 		for (Card kaart : hand) {
-			if(kaart == hand) {
+			System.out.println(kaart.getName());
+			if(kaart.getName().equals(card.getName())) {
+				System.out.println("SEEES");
 				//kas kaarti saab käia pilesse
-				return getLastPileCard().compareCards(card, card.getColor());
+				try {
+					return card.compareCards(getLastPileCard(), null);
+				} catch(ArrayIndexOutOfBoundsException err) {
+					return true;
+				}
+				
 			}
-		}*/
-		return true;
+		}
+		System.out.println("VALIDEERIMINE EBAÕNNESTUS");
+		return false;
 	}
 	
 }
