@@ -14,14 +14,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import Message.Server.PickUpCardsMessage;
+import Message.Server.ServerCardMessage;
+import Message.Server.StartingPlayersMessage;
+import Message.Server.WelcomeMessage;
+
 import Game.Card;
+import Game.Card.Color;
 import Game.Pile;
 import Game.Player;
 import Message.Message;
-import Message.WelcomeMessage;
-import Message.pickUpCardsMessage;
-import Message.serverCardMessage;
-import Message.startingPlayersMessage;
 
 
 public class ClientSession extends Thread {
@@ -34,20 +36,21 @@ public class ClientSession extends Thread {
 	Message incomingMessage;
 	Object incomingObject;
 	private UnoGame game;
-	private Player player = new Player(getName());
+	private Player player;// = new Player(getName());
 	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, UnoGame game) throws IOException {
 		setName("Player " + n);
+		player = new Player(getName());
 		socket = s;
 		outQueue = out;
 		activeSessions = as;
 		this.game = game;
 		netOut = new ObjectOutputStream(
 				socket.getOutputStream());
-		netOut.flush();
+		//netOut.flush();
 		netIn = new ObjectInputStream(
 					socket.getInputStream());
 		System.out.println( "ClientSession " + this + " stardib..." );	
-		game.addPlayer(player);
+		
 		
 		start();
 	}
@@ -62,6 +65,7 @@ public class ClientSession extends Thread {
 			startGame();
 			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
 				try {
+					game.checkMyTurn(player);
 					incomingObject = netIn.readObject();
 					incomingMessage = (Message) incomingObject;
 					incomingMessage.onReceive(this);
@@ -90,8 +94,17 @@ public class ClientSession extends Thread {
 	}
 	public void addMessage(Message msg) {
 		outQueue.addMessage(msg);
+			}
+	public void pickUpOneCard() {
+		List<Card> cards = new ArrayList<Card>();
+		cards.add(game.giveCard(player));
+		System.out.println(player.getName() +">> muutsin järjekorda ja saadan sonumi");
+		outQueue.addMessage(new PickUpCardsMessage(cards, this.getName()));
+		game.changeNextPlayer();
+		outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
 	}
-	public void sendMessage(Message msg) {
+	
+	public synchronized void sendMessage(Message msg) {
 		try {
 			if (!socket.isClosed()) {
 				System.out.println("Jou, just kirjutasin" + msg);
@@ -102,6 +115,8 @@ public class ClientSession extends Thread {
 				throw new IOException(); 			// tegelikult: CALL catch()
 			}
 		} catch (IOException eee) {
+			//eee.getStackTrace();
+			eee.printStackTrace();
 			System.out.println("AVARII");
 			//outQueue.addMessage(new TextMessage(getName() + " - avarii..."));
 			try {
@@ -115,11 +130,11 @@ public class ClientSession extends Thread {
 			Message send;
 			if (color != null) {
 				String next = activeSessions.getNextClientSession(this).getName();
-				send = new serverCardMessage(next, card);
+				send = new ServerCardMessage(next, card);
 			} else {
 				
 				String next = activeSessions.getNextClientSession(this).getName();
-				send = new serverCardMessage(next, card, color);
+				send = new ServerCardMessage(next, card, color);
 			}
 			return send;
 		}
@@ -129,9 +144,10 @@ public class ClientSession extends Thread {
 	 * Mängu alguses saadetakse mängijatele 5 kaarti.
 	 */
 	public void startGame() {
-		game.startGame();
+		game.addPlayer(player);
+		game.startGame(player);
 		System.out.println(player + " lisan kaarte");
-		addMessage(new pickUpCardsMessage(pickUpCards(5), this.getName()/*activeSessions.getNextClientSession(this).getName()*/));
+		addMessage(new PickUpCardsMessage(pickUpCards(5), this.getName()/*activeSessions.getNextClientSession(this).getName()*/));
 	}
 	/**
 	 * Meetod tagastab desckits võetud kaartide listi
@@ -141,8 +157,9 @@ public class ClientSession extends Thread {
 	public List<Card> pickUpCards(int amount) {
 		List<Card> cards = new ArrayList<Card>();
 		for (int i=0;i<amount;i++) {
-			cards.add(game.giveCard());
+			cards.add(game.giveCard(player));
 		}
+		game.getPlayerCards(player);
 		return cards;
 		/*if (validate(card)) {
 			List<Card> cards = new ArrayList<Card>();
@@ -155,6 +172,18 @@ public class ClientSession extends Thread {
 	
 	public boolean validate(Card card) {
 		return game.validateCard(player, card);
+	}
+
+	/**
+	 * Kliendilt saabunud sõnumi töötlemine.
+	 * @param kaart
+	 * @param varv
+	 */
+	public void recieveClientCard(Card card, Color varv) {
+		//game.validateCard(player, card);
+		System.out.println("clientis sõnumi töötlemine");
+		game.addCardToPile(player, card);
+		
 	}
 
 }

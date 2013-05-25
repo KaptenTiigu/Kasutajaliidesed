@@ -11,7 +11,9 @@ class OutboundMessages {
 		messages.add(m);
 		this.notifyAll(); 									// Broadcaster.notify()
 	}
-
+	public int messagesLength(){
+		return messages.size();
+	}
 	public synchronized Message getMessage() { 
 		try {
 			while (messages.isEmpty() || messages==null) {

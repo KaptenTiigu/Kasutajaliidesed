@@ -25,19 +25,18 @@ class Broadcaster extends Thread {
 				while (active.hasNext()) {
 					ClientSession cli = active.next();
 					String adressaat = message.getAdress();
-					if (adressaat != null && !adressaat.isEmpty()) {
-						if(cli.getName().equals(adressaat)) {
-							cli.sendMessage(message);
-							break;
+						if (adressaat != null && !adressaat.isEmpty()) {
+							if(cli.getName().equals(adressaat)) {
+								cli.sendMessage(message);
+								break;
+							}
+						} else {
+								System.out.println("mustanahaline: " + message);
+								cli.sendMessage(message);
+							}
+						if (!cli.isAlive()) {
+							active.remove(); 		// ;-)
 						}
-					} else {
-							System.out.println("mustanahaline: " + message);
-							cli.sendMessage(message);
-						}
-						
-					if (!cli.isAlive()) {
-						active.remove(); 		// ;-)
-					}
 				}
 			}
 		}

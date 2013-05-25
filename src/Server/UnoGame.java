@@ -4,19 +4,29 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import Message.Message;
+import Message.Server.ServerCardMessage;
+import Message.Server.StartingPlayersMessage;
+
+
 import Game.Card;
 import Game.Deck;
 import Game.Pile;
 import Game.Player;
 import Game.Card.Color;
-import Message.startingPlayersMessage;
 
+/**
+ * Mängu põhiline loogika
+ * @author LehoRaiguma
+ *
+ */
 public class UnoGame {
 	private Deck deck;
 	private Pile pile;
 	private Card.Color color;
 	private List<Player> players = new ArrayList<Player>();
 	private OutboundMessages outQueue;
+	private String whoseTurn;
 	
 	public UnoGame(OutboundMessages outQueue) {
 		this.outQueue = outQueue;
@@ -26,7 +36,12 @@ public class UnoGame {
 		pile = new Pile();
 	}
 	
-	public synchronized List<Player> startGame() {
+	/**
+	 * Mängu alustamine
+	 * @param player - mängija
+	 */
+	public synchronized void startGame(Player player) {
+		if (whoseTurn == null) whoseTurn = player.getName();
 			if (players.size() != 2) {//CPU LIIGA KÕRGE, HETKEL KAHE PLAYERIGA
 				try {
 					System.out.println("jään waitima!");
@@ -35,13 +50,95 @@ public class UnoGame {
 					e.printStackTrace();
 				}
 			} else {
-				outQueue.addMessage(new startingPlayersMessage(players));
+				List<String> playerNames = new ArrayList<String>();
+				for (Player a : players) {
+					playerNames.add(a.getName());
+				}
 				this.notifyAll();
+				outQueue.addMessage(new StartingPlayersMessage(playerNames, whoseTurn));
+				System.out.println("Praegu on " + whoseTurn + " käik");
+				
 			}			
-			System.out.println("Returnin nüüd");
-			return players;
 	}
 	
+	/**
+	 * Enda käigu kontrollimine
+	 * @param player - mängija
+	 */
+	public void checkMyTurn(Player player) {
+		//synchronized(whoseTurn) {
+			if(!player.getName().equals(whoseTurn) && outQueue.messagesLength()==0) {
+				System.out.println(player.getName() + ">> pole minu käik, ootan");
+				/*synchronized(this) {
+					try {
+						this.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}*/
+			}
+			System.out.println(player.getName() + ">> minu käik, käin nüüd");
+		//}
+	}
+	
+	/**
+	 * Kaardi lisamine Pile (pealmise kaardi tampmine).
+	 * @param player - kaardi käija
+	 * @param card - käidud kaart
+	 */
+	public void addCardToPile(Player player, Card card) {
+		if (validateCard(player, card)) {		
+				player.playCard(card);
+				pile.addCard(card);
+				/*synchronized(this) {
+					this.notifyAll();
+				}*/
+				//next,card,color
+				changeNextPlayer();
+				System.out.println("Nüüd on " + whoseTurn + " käik");
+				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, card.getColor()));
+		}
+	}
+	
+	/**
+	 * Järgmise mängija muutmine (See kes peab käima).
+	 */
+	public void changeNextPlayer() {
+		boolean next = false;
+		synchronized(whoseTurn) {
+			if(whoseTurn.equals(players.get(players.size() -1).getName())) {
+				whoseTurn = players.get(0).getName();
+			} else {
+				for (Player player : players) {
+					if (whoseTurn.equals(player.getName())) {
+						next = true;
+					} else if (next) {
+						whoseTurn = player.getName();
+						//System.out.println("teine player käiaks");
+					}			
+				}
+			}
+		}
+	}
+	/*public void addCardToPlayer(Player player, Card card) {
+		for (Player a : players) {
+			if(a == player) {
+				a.pickupCard(card);
+			}
+		}
+	}*/
+	public Player getPlayer(Player player) {
+		for (Player a : players) {
+			if(a == player) {
+				return a;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Mängulaualt kaartide lisamine decki
+	 */
 	public void addPileToDeck() {
 		List<Card> pileCards = pile.getCards();
 		Card last = pileCards.get(pileCards.size()-1);
@@ -57,10 +154,17 @@ public class UnoGame {
 		deck.shuffle();
 	}
 	
+	/**
+	 * Mängija lisamine
+	 * @param p - mängija
+	 */
 	public void addPlayer(Player p) {
 		players.add(p);
 	}
 	
+	public String whoseTurn() {
+		return whoseTurn;
+	}
 	/**
 	 * Mängija otsimine nime järgi
 	 * @param name
@@ -85,10 +189,21 @@ public class UnoGame {
 		return last;
 	}
 	
-	public synchronized Card giveCard() {
-		return deck.getCard();
+	/**
+	 * Mängijale kaardi andmine
+	 * @param player - mängija
+	 * @return kaart
+	 */
+	public synchronized Card giveCard(Player player) {
+		Card a = deck.getCard();
+		Player b = getPlayer(player);
+		b.pickupCard(a);
+		return a;
 	}
-	
+	public synchronized void getPlayerCards(Player player) {
+		Player b = getPlayer(player);
+		System.out.println(b.getCards());
+	}
 	/**
 	 * Käigu valideerimine
 	 * @param player - kaardi käija
@@ -96,15 +211,15 @@ public class UnoGame {
 	 * @return true, kui kõik korras, false kui midagi on valesti
 	 */
 	public boolean validateCard(Player player, Card card) {
-		Player play = getPlayer(player.getName());
+		/*Player play = getPlayer(player.getName());
 		List<Card> hand = play.getCards();
 		// Kas kaart on mängijal käes
 		for (Card kaart : hand) {
 			if(kaart == hand) {
 				//kas kaarti saab käia pilesse
-				return kaart.compareCards(card, card.getColor());
+				return getLastPileCard().compareCards(card, card.getColor());
 			}
-		}
+		}*/
 		return true;
 	}
 	

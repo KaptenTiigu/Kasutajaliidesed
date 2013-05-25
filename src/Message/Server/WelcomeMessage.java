@@ -1,9 +1,10 @@
-package Message;
+package Message.Server;
 
 import java.util.ArrayList;
 
 import Game.Player;
 import Klient.Client;
+import Message.Message;
 import Server.ClientSession;
 
 public class WelcomeMessage implements Message {

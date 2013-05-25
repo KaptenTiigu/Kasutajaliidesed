@@ -1,4 +1,4 @@
-package Message;
+package Message.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import Game.Card;
 import Game.Player;
 import Klient.Client;
+import Message.Message;
 import Server.ClientSession;
 
 /**
@@ -13,15 +14,17 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
-public class startingPlayersMessage implements Message {
+public class StartingPlayersMessage implements Message {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<Player> mangijad = new ArrayList<Player>();
+	private List<String> mangijad = new ArrayList<String>();
+	private String whoseTurn;
 
-	public startingPlayersMessage(List<Player> mangijad) {
+	public StartingPlayersMessage(List<String> mangijad, String whoseTurn) {
 		this.mangijad = mangijad;
+		this.whoseTurn = whoseTurn;
 	}
 	
 	@Override
@@ -36,15 +39,17 @@ public class startingPlayersMessage implements Message {
 		c.addPlayers(mangijad);
 		System.out.println("startingPlayersMessage kliendis tehtud");
 		c.teisedMangijad();
-		/**
-		 * Lisab mängijate nimed kusagile kliendi/player objektis,
-		 */
+		if(c.getName().equals(whoseTurn)) {
+			c.setPermission(true);
+		} else {
+			c.setPermission(false);
+		}
 		
 	}
 
 	@Override
 	public String getAdress() {
-		System.out.println("startingPlayersMessage");
+		//System.out.println("startingPlayersMessage");
 		return null;
 	}
 

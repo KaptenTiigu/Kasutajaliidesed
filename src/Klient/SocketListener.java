@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import Message.Message;
 
+
 class SocketListener extends Thread {
 	private ObjectInputStream netIn;
 	private Socket socket;
@@ -24,22 +25,22 @@ class SocketListener extends Thread {
 			while (true) { 		
 				Object fromServer = netIn.readObject(); 				// blocked...
 				if (fromServer != null) {
-					System.out.println("UUS SÕNUM");
+					//System.out.println("UUS SÕNUM");
 					Message message = (Message)fromServer;
 					synchronized (inQueue) { 					// lukku!
 						inQueue.add(message);		
-						if(!inQueue.isEmpty())System.out.println("UUS SÕNUM2");
+						//if(!inQueue.isEmpty())System.out.println("UUS SÕNUM2");
 					}
 				}
 			}
-		} catch (IOException e) {
+		} catch (IOException e) {//System.out.println("IOIOIOIOI");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if (!socket.isClosed()) {
 					socket.close();
-					System.out.println("closing...");
+					System.out.println("closing...2");
 					return;
 				}
 			} catch (IOException ee) {}

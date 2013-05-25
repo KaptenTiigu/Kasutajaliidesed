@@ -1,4 +1,8 @@
-package Game;
+package Game.Cards;
+
+import Game.Card;
+import Game.Card.Color;
+import Game.Card.Value;
 
 /**
  * Kaart, mis annab käiast järgmisele mängijale ühe kaardi juurde ja jätab ta vahele.

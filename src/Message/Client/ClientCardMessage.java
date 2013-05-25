@@ -1,8 +1,9 @@
-package Message;
+package Message.Client;
 
 import Game.Card;
 import Game.Player;
 import Klient.Client;
+import Message.Message;
 import Server.ClientSession;
 
 /**
@@ -10,7 +11,7 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
-public class clientCardMessage implements Message {
+public class ClientCardMessage implements Message {
 	/**
 	 * 
 	 */
@@ -18,11 +19,11 @@ public class clientCardMessage implements Message {
 	private Card kaart;
 	private Card.Color varv;
 	
-	public clientCardMessage(Card kaart) {
+	public ClientCardMessage(Card kaart) {
 		this.kaart = kaart;
 	}
 	
-	public clientCardMessage(Card kaart, Card.Color varv) {
+	public ClientCardMessage(Card kaart, Card.Color varv) {
 		this.kaart = kaart;
 		this.varv = varv;
 	}
@@ -33,8 +34,9 @@ public class clientCardMessage implements Message {
 		 * server koostab uue sõnumi ja saadab kaardid kõigile teistele.
 		 */
 		System.out.println("SERVER SAI SÕNUMI KÄTTE");
-		Message message = s.makeMessage(kaart, varv);
-		s.addMessage(message);
+		s.recieveClientCard(kaart, varv);
+		/*Message message = s.makeMessage(kaart, varv);
+		s.addMessage(message);*/
 		//s.outQueue.addMessage(msg);
 	}
 

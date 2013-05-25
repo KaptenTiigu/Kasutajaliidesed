@@ -1,4 +1,4 @@
-package Message;
+package Message.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import Game.Card;
 import Game.Player;
 import Klient.Client;
+import Message.Message;
 import Server.ClientSession;
 
 /**
@@ -13,7 +14,7 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
-public class pickUpCardsMessage implements Message {
+public class PickUpCardsMessage implements Message {
 	/**
 	 * 
 	 */
@@ -21,7 +22,7 @@ public class pickUpCardsMessage implements Message {
 	private List<Card> kaardid;
 	private String address;
 	
-	public pickUpCardsMessage(List<Card> kaardid, String address) {
+	public PickUpCardsMessage(List<Card> kaardid, String address) {
 		this.kaardid = kaardid;
 		this.address = address;
 	}
@@ -35,9 +36,11 @@ public class pickUpCardsMessage implements Message {
 	public void onReceive(Player c) {
 		for (Card card : kaardid) {
 			c.pickupCard(card);
+			//TESTIMISE EESMÄRGIL
+			System.out.println(c.getName()+">> Võtsin kätte:" + card.getName());
 		}
 		//TESTIMISE EESMÄRGIL
-		c.kaartidePrint();
+		//c.kaartidePrint();
 	}
 
 	@Override

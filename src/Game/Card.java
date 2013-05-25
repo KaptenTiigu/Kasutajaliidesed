@@ -25,7 +25,7 @@ public abstract class Card implements Serializable{
 	
 	private Color color;
 	private Value value;
-	
+	private String name;
 	/**
 	 * Kaardile v‰rvi ja v‰‰rtuse andmine
 	 * @param col - v‰rv
@@ -34,6 +34,7 @@ public abstract class Card implements Serializable{
 	public Card(Color col, Value val) {
 		this.color = col;
 		this.value = val;
+		name = col + " " + value;
 	}
 	
 	/**
@@ -49,6 +50,13 @@ public abstract class Card implements Serializable{
 	 */
 	public Value getValue(){
 		return value;
+	}
+	/**
+	 * Kaardi nime tagastamine
+	 * @return nimi
+	 */
+	public String getName(){
+		return name;
 	}
 	/**
 	 * Kaartide vırdlemine. Kas etteantud kaarti vıib k‰ia lauale.

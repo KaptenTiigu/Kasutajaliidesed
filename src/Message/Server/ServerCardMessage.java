@@ -1,9 +1,10 @@
-package Message;
+package Message.Server;
 
 import Game.Card;
 import Game.Card.Color;
 import Game.Player;
 import Klient.Client;
+import Message.Message;
 import Server.ClientSession;
 
 /**
@@ -11,7 +12,7 @@ import Server.ClientSession;
  * @author LehoRaiguma
  *
  */
-public class serverCardMessage implements Message {
+public class ServerCardMessage implements Message {
 	/**
 	 * 
 	 */
@@ -21,7 +22,7 @@ public class serverCardMessage implements Message {
 	private Card.Color varv;
 	private String jargmine;
 
-	public serverCardMessage(String next, Card card, Color color) {
+	public ServerCardMessage(String next, Card card, Color color) {
 		// TODO Auto-generated constructor stub
 		this.kaart = card;
 		//this.address = address;
@@ -29,7 +30,7 @@ public class serverCardMessage implements Message {
 		this.jargmine = next;
 	}
 
-	public serverCardMessage(/*String address, */String jargmine, Card kaart) {
+	public ServerCardMessage(/*String address, */String jargmine, Card kaart) {
 		this.kaart = kaart;
 		//this.address = address;
 		this.jargmine = jargmine;
@@ -52,7 +53,7 @@ public class serverCardMessage implements Message {
 			} else {
 				c.setPermission(false);
 			}
-			c.killCard();
+			//c.killCard();
 	}
 
 	@Override
