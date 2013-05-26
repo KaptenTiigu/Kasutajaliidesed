@@ -44,14 +44,18 @@ public class ServerCardMessage implements Message {
 
 	@Override
 	public void onReceive(Player c) {
+		
+		//hetkel on väljakutsumise järjekord oluline (muidu esitab tekstiliideses vanat infot)
+		if (jargmine.equals(c.getName())) {
+			c.setPermission(true);
+		} else {
+			c.setPermission(false);
+		}
+		
+		
 			c.addKillCard(kaart);
 			if (varv != null) {
 				c.addColor(varv);
-			}
-			if (jargmine.equals(c.getName())) {
-				c.setPermission(true);
-			} else {
-				c.setPermission(false);
 			}
 			//c.killCard();
 	}

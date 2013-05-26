@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import exceptions.FirstCardInPileException;
+
 import Message.Server.PickUpCardsMessage;
 import Message.Server.ServerCardMessage;
 import Message.Server.StartingPlayersMessage;
@@ -101,7 +103,9 @@ public class ClientSession extends Thread {
 		System.out.println(player.getName() +">> muutsin järjekorda ja saadan sonumi");
 		outQueue.addMessage(new PickUpCardsMessage(cards, this.getName()));
 		game.changeNextPlayer();
-		outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
+		try {
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
+		} catch (FirstCardInPileException e) {}
 	}
 	
 	public synchronized void sendMessage(Message msg) {
@@ -159,17 +163,34 @@ public class ClientSession extends Thread {
 		for (int i=0;i<amount;i++) {
 			cards.add(game.giveCard(player));
 		}
-		game.getPlayerCards(player);
+		//game.getPlayerCards(player);
 		return cards;
-		/*if (validate(card)) {
-			List<Card> cards = new ArrayList<Card>();
-			for (int i=0;i<amount;i++) {
-				cards.add(game.giveCard());
-			}
-			Message send = new pickUpCardsMessage(cards, activeSessions.getNextClientSession(this).getName());
-		}*/
-}
+	}
 	
+	/**
+	 * Annab järgmisele mängijale kaarte juurde JA JÄTAB VAHELE
+	 * @param amount - kaartide kogus mis juurde antakse
+	 */
+	public void drawCards(int amount) {
+		game.changeNextPlayer();
+		List<Card> cards = new ArrayList<Card>();
+		for (int i=0;i<amount;i++) {
+			cards.add(game.giveCard(game.whoseTurn()));
+		}
+		addMessage(new PickUpCardsMessage(cards, game.whoseTurn()));
+	}
+	
+	/**
+	 * Järgmine mängija jätab käigu vahele
+	 */
+	public void skipTurn() {
+		game.changeNextPlayer();
+		game.changeNextPlayer();
+		try {
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
+		} catch (FirstCardInPileException e) {}
+	}
+	//public Draw
 	public boolean validate(Card card) {
 		return game.validateCard(player, card);
 	}
@@ -182,8 +203,10 @@ public class ClientSession extends Thread {
 	public void recieveClientCard(Card card, Color varv) {
 		//game.validateCard(player, card);
 		System.out.println("clientis sõnumi töötlemine");
-		game.addCardToPile(player, card);
-		
+		if (validate(card)) {
+			card.action(this);
+			game.addCardToPile(player, card);
+		}	
 	}
 
 }

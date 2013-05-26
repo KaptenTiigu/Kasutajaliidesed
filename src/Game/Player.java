@@ -60,15 +60,18 @@ public class Player {
 		if(kill == null) {
 			kill = card;
 			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
-			if(permission)System.out.println("SINU KÄIK!");
+			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
+			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}else if(!kill.getName().equals(card.getName())) {
 			kill = card;
 			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
-			if(permission)System.out.println("SINU KÄIK!");
+			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
+			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		} else {
 			System.out.println("Eelmine mängija võttis kaardi");
 			System.out.println("Tapetav kaart" + kill.getName());
-			if(permission)System.out.println("SINU KÄIK!");
+			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
+			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}
 		
 	}
@@ -151,12 +154,22 @@ public class Player {
 	}
 	
 	/**
+	 * Unogames võrdlemiseks, kui nimed on samad siis on võrdsed
+	 * @param player
+	 * @return
+	 */
+	public boolean equals(Player player) {
+		if(this.getName() == name)return true;
+		return false;
+	}
+	/**
 	 * LIHTSALT TESTIMISE MEETODID
 	 */
 	//prindib killcardi
 	public void killCard() {
 		System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
-		if(permission)System.out.println("SINU KÄIK!");
+		if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
+		else System.out.println("------------------------VASTASE KÄIK!------------------------");
 	}
 	//prindib käeasolevad kaardid
 	public void kaartidePrint() {

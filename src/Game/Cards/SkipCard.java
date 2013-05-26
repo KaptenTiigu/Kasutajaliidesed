@@ -3,6 +3,7 @@ package Game.Cards;
 import Game.Card;
 import Game.Card.Color;
 import Game.Card.Value;
+import Server.ClientSession;
 
 public class SkipCard extends Card{
 
@@ -16,8 +17,9 @@ public class SkipCard extends Card{
 	}
 	
 	@Override
-	public void action() {
+	public void action(ClientSession sess) {
 		// TODO Auto-generated method stub
+		sess.skipTurn();
 		
 	}
 

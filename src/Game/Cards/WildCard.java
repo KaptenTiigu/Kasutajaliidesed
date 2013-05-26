@@ -3,6 +3,7 @@ package Game.Cards;
 import Game.Card;
 import Game.Card.Color;
 import Game.Card.Value;
+import Server.ClientSession;
 
 public class WildCard extends Card{
 
@@ -16,7 +17,7 @@ public class WildCard extends Card{
 	}
 	
 	@Override
-	public void action() {
+	public void action(ClientSession sess) {
 		
 	}
 	

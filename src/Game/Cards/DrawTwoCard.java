@@ -3,6 +3,7 @@ package Game.Cards;
 import Game.Card;
 import Game.Card.Color;
 import Game.Card.Value;
+import Server.ClientSession;
 
 public class DrawTwoCard extends Card {
 	
@@ -17,7 +18,7 @@ public class DrawTwoCard extends Card {
 	}
 	
 	@Override
-	public void action() {
-		
+	public void action(ClientSession sess) {
+		sess.drawCards(2);
 	}
 }

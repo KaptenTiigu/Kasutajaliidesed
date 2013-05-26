@@ -2,6 +2,8 @@ package Game;
 
 import java.io.Serializable;
 
+import Server.ClientSession;
+
 public abstract class Card implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -80,5 +82,5 @@ public abstract class Card implements Serializable{
 	/**
 	 * Meetod, mis aktiveerib erisugused tegevused, mis antud kaardiga seotud on.
 	 */
-	public void action() {}
+	public abstract void action(ClientSession sess);
 }

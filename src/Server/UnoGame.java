@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import exceptions.FirstCardInPileException;
+
 import Message.Message;
 import Message.Server.ServerCardMessage;
 import Message.Server.StartingPlayersMessage;
@@ -68,7 +70,7 @@ public class UnoGame {
 	public void checkMyTurn(Player player) {
 		//synchronized(whoseTurn) {
 			if(!player.getName().equals(whoseTurn) && outQueue.messagesLength()==0) {
-				System.out.println(player.getName() + ">> pole minu käik, ootan");
+				//System.out.println(player.getName() + ">> pole minu käik, ootan");
 				/*synchronized(this) {
 					try {
 						this.wait();
@@ -78,7 +80,7 @@ public class UnoGame {
 					}
 				}*/
 			}
-			System.out.println(player.getName() + ">> minu käik, käin nüüd");
+			//System.out.println(player.getName() + ">> minu käik, käin nüüd");
 		//}
 	}
 	
@@ -88,13 +90,16 @@ public class UnoGame {
 	 * @param card - käidud kaart
 	 */
 	public void addCardToPile(Player player, Card card) {
-		if (validateCard(player, card)) {		
-				player.playCard(card);
+		if (validateCard(player, card)) {
+				Card sCard = getCard(card);
+				getPlayer(player.getName()).playCard(sCard/*getCard(card)*/);
 				pile.addCard(card);
 				/*synchronized(this) {
 					this.notifyAll();
 				}*/
-				//next,card,color
+				//testimise meetod
+				testiKaesOlevaidKaarte(getPlayer(player.getName()));
+				
 				changeNextPlayer();
 				System.out.println("Nüüd on " + whoseTurn + " käik");
 				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, card.getColor()));
@@ -135,8 +140,24 @@ public class UnoGame {
 	 */
 	public Player getPlayer(Player player) {
 		for (Player a : players) {
-			if(a == player) {
+			if(a.getName().equals(player.getName())) {
 				return a;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Tagastab serveri poolse kaardi objekti
+	 * @param card - kliendi poolne kaart
+	 * @return serveri poolne kaart
+	 */
+	public Card getCard(Card card) {
+		for(Player player : players) {
+			//Player play = getPlayer(player.getName());
+			List<Card> hand = player.getCards();
+			for (Card kaart : hand) {
+				if(kaart.getName().equals(card.getName())) return kaart;
+				//System.out.println(kaart.getName());
 			}
 		}
 		return null;
@@ -191,10 +212,11 @@ public class UnoGame {
 	/**
 	 * Laualt viimase (pealmise) kaardi saamine
 	 * @return kaart
+	 * @throws FirstCardInPileException - kui Piles puuduvad kaardid
 	 */
-	public Card getLastPileCard() {
+	public Card getLastPileCard() throws FirstCardInPileException {
 		List<Card> pileCards = pile.getCards();
-		if (pileCards.isEmpty()) throw new ArrayIndexOutOfBoundsException();
+		if (pileCards.isEmpty()) throw new FirstCardInPileException();
 		Card last = pileCards.get(pileCards.size()-1);
 		return last;
 	}
@@ -205,6 +227,17 @@ public class UnoGame {
 	 * @return kaart
 	 */
 	public synchronized Card giveCard(Player player) {
+		Card a = deck.getCard();
+		Player b = getPlayer(player);
+		b.pickupCard(a);
+		return a;
+	}
+	/**
+	 * Mängijale kaardi andmine
+	 * @param String - mängija nimi
+	 * @return kaart
+	 */
+	public synchronized Card giveCard(String player) {
 		Card a = deck.getCard();
 		Player b = getPlayer(player);
 		b.pickupCard(a);
@@ -222,7 +255,7 @@ public class UnoGame {
 	/**
 	 * Käigu valideerimine
 	 * @param player - kaardi käija
-	 * @param card - käidud kaart
+	 * @param card - tapetav kaart
 	 * @return true, kui kõik korras, false kui midagi on valesti
 	 */
 	public boolean validateCard(Player player, Card card) {
@@ -230,13 +263,13 @@ public class UnoGame {
 		List<Card> hand = play.getCards();
 		// Kas kaart on mängijal käes
 		for (Card kaart : hand) {
-			System.out.println(kaart.getName());
+			//System.out.println(kaart.getName());
 			if(kaart.getName().equals(card.getName())) {
 				System.out.println("SEEES");
 				//kas kaarti saab käia pilesse
 				try {
 					return card.compareCards(getLastPileCard(), null);
-				} catch(ArrayIndexOutOfBoundsException err) {
+				} catch(FirstCardInPileException err) {
 					return true;
 				}
 				
@@ -244,6 +277,18 @@ public class UnoGame {
 		}
 		System.out.println("VALIDEERIMINE EBAÕNNESTUS");
 		return false;
+	}
+	
+	/**
+	 * Testimiseks, käesolevad kaardid prindib välja
+	 * @param player
+	 */
+	public void testiKaesOlevaidKaarte(Player player) {
+		Player play = getPlayer(player.getName());
+		List<Card> hand = play.getCards();
+		for (Card kaart : hand) {
+			System.out.println(kaart.getName());
+		}
 	}
 	
 }
