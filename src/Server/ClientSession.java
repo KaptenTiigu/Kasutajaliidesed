@@ -185,10 +185,10 @@ public class ClientSession extends Thread {
 	 */
 	public void skipTurn() {
 		game.changeNextPlayer();
-		game.changeNextPlayer();
+		/*game.changeNextPlayer();
 		try {
 			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
-		} catch (FirstCardInPileException e) {}
+		} catch (FirstCardInPileException e) {}*/
 	}
 	//public Draw
 	public boolean validate(Card card) {
