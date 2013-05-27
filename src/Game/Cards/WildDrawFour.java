@@ -20,5 +20,11 @@ public class WildDrawFour extends Card{
 	public void action(ClientSession sess) {
 		sess.drawCards(4);
 	}
+
+	@Override
+	public boolean chooseColor() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

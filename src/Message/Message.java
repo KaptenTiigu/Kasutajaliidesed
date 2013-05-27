@@ -32,7 +32,7 @@ public interface Message extends Serializable {
 	 * 
 	 * @param s - CLientSession
 	 */
-	void onReceive(Player c);
+	void onReceive(Client c);
 	/**
 	 * Meetod tagastab adressaadi.
 	 * @return aadress, kellele sõnu saadetakse

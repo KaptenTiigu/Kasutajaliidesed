@@ -32,4 +32,10 @@ public class DrawOneCard extends Card {
 		sess.drawCards(1);
 		//sess.skipNext();
 	}
+
+	@Override
+	public boolean chooseColor() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

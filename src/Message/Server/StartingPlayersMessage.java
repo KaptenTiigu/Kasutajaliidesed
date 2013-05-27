@@ -34,15 +34,16 @@ public class StartingPlayersMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Player c) {
+	public void onReceive(Client c) {
+		Player p = c.getPlayer();
 		System.out.println("startingPlayersMessage kliendis");
-		c.addPlayers(mangijad);
+		p.addPlayers(mangijad);
 		System.out.println("startingPlayersMessage kliendis tehtud");
-		c.teisedMangijad();
-		if(c.getName().equals(whoseTurn)) {
-			c.setPermission(true);
+		p.teisedMangijad();
+		if(p.getName().equals(whoseTurn)) {
+			p.setPermission(true);
 		} else {
-			c.setPermission(false);
+			p.setPermission(false);
 		}
 		
 	}

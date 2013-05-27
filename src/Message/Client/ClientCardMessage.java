@@ -26,6 +26,7 @@ public class ClientCardMessage implements Message {
 	public ClientCardMessage(Card kaart, Card.Color varv) {
 		this.kaart = kaart;
 		this.varv = varv;
+		System.out.println("Värv sõnumis: " + varv);
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class ClientCardMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Player c) {
+	public void onReceive(Client c) {
 		//c.Player = new Player("maksim");
 	}
 

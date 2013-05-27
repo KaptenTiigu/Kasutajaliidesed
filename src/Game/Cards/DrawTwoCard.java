@@ -21,4 +21,10 @@ public class DrawTwoCard extends Card {
 	public void action(ClientSession sess) {
 		sess.drawCards(2);
 	}
+
+	@Override
+	public boolean chooseColor() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

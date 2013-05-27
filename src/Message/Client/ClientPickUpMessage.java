@@ -4,6 +4,7 @@ import java.util.List;
 
 import Game.Card;
 import Game.Player;
+import Klient.Client;
 import Message.Message;
 import Server.ClientSession;
 
@@ -19,7 +20,7 @@ public class ClientPickUpMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Player c) {
+	public void onReceive(Client c) {
 		
 	}
 

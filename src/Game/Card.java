@@ -4,21 +4,22 @@ import java.io.Serializable;
 
 import Server.ClientSession;
 
+/**
+ * Klassis on kaartide loogika.
+ * @author Ivo Uutma
+ * @author Marko Vanaveski
+ */
 public abstract class Card implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Kaardi v‰rvilised v‰‰rtused
-	 * @author LehoRaiguma
-	 *
 	 */
 	public enum Color {
 		BLUE, RED, GREEN, YELLOW;
 	}
 	/**
 	 * Kaardi nimelised v‰‰rtused
-	 * @author LehoRaiguma
-	 *
 	 */
 	public enum Value {
 		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, DRAWONE, DRAWTWO,
@@ -80,7 +81,12 @@ public abstract class Card implements Serializable{
 		return false;
 	}
 	/**
-	 * Meetod, mis aktiveerib erisugused tegevused, mis antud kaardiga seotud on.
+	 * Meetod, mis aktiveerib erisugused tegevused serveris, mis antud kaardiga seotud on.
 	 */
 	public abstract void action(ClientSession sess);
+	/**
+	 * Klassis m‰‰ratakse, kas antud kaardi puhul on kasutajal vajalik ka v‰rvi valida.
+	 * @return boolean
+	 */
+	public abstract boolean chooseColor();
 }

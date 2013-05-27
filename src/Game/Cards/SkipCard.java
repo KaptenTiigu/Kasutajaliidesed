@@ -23,4 +23,10 @@ public class SkipCard extends Card{
 		
 	}
 
+	@Override
+	public boolean chooseColor() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

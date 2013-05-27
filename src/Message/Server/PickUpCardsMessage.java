@@ -33,11 +33,12 @@ public class PickUpCardsMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Player c) {
+	public void onReceive(Client c) {
+		Player p = c.getPlayer();
 		for (Card card : kaardid) {
-			c.pickupCard(card);
+			p.pickupCard(card);
 			//TESTIMISE EESMÄRGIL
-			System.out.println(c.getName()+">> Võtsin kätte:" + card.getName());
+			System.out.println(p.getName()+">> Võtsin kätte:" + card.getName());
 		}
 		//TESTIMISE EESMÄRGIL
 		//c.kaartidePrint();

@@ -20,5 +20,11 @@ public class WildCard extends Card{
 	public void action(ClientSession sess) {
 		
 	}
+
+	@Override
+	public boolean chooseColor() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

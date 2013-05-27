@@ -7,7 +7,8 @@ import java.util.List;
 
 /**
  * Klass, mis sisaldab endas mängu mängija poole loogikat.
- * @author LehoRaiguma
+ * @author Ivo Uutma
+ * @author Marko Vanaveski
  *
  */
 public class Player {
@@ -30,7 +31,7 @@ public class Player {
 	/**
 	 * Värv, mis värvi kaarti tohib panna
 	 */
-	private Card.Color specialColor;
+	private Card.Color killColor;
 	/**
 	 * Kas on mängija kord käia.
 	 */
@@ -59,17 +60,21 @@ public class Player {
 	public void addKillCard(Card card) {
 		if(kill == null) {
 			kill = card;
-			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
+			if(kill!=null)System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
+			else System.out.println("Lauale ei käidud midagi, võeti pakist kaart");
+			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}else if(!kill.getName().equals(card.getName())) {
 			kill = card;
 			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
+			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		} else {
 			System.out.println("Eelmine mängija võttis kaardi");
 			System.out.println("Tapetav kaart" + kill.getName());
+			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}
@@ -81,7 +86,14 @@ public class Player {
 	 * @param color - värv
 	 */
 	public void addColor(Card.Color color) {
-		specialColor = color;
+		killColor = color;
+	}
+	/**
+	 * Värvi tagastamine
+	 * @param color - värv
+	 */
+	public Card.Color getColor() {
+		return killColor;
 	}
 	
 	/**
@@ -134,9 +146,18 @@ public class Player {
 	public List<Card> getCards() {
 		return hand;
 	}
+	/**
+	 * Tapmiskaardi tagastamine
+	 * @return tapetav kaart
+	 */
 	public Card getKillCard() {
 		return kill;
 	}
+	/**
+	 * Kaardi nime järgi otsimine
+	 * @param string kaardi nimi
+	 * @return kaart
+	 */
 	public Card getCardByName(String string) {
 		for(Card a : hand) {
 			if(string.equals(a.getName())) return a;
@@ -168,6 +189,7 @@ public class Player {
 	//prindib killcardi
 	public void killCard() {
 		System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
+		if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 		if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 		else System.out.println("------------------------VASTASE KÄIK!------------------------");
 	}

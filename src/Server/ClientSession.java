@@ -97,6 +97,9 @@ public class ClientSession extends Thread {
 	public void addMessage(Message msg) {
 		outQueue.addMessage(msg);
 			}
+	/**
+	 * Mängija võtab ühe kaardi ülesse
+	 */
 	public void pickUpOneCard() {
 		List<Card> cards = new ArrayList<Card>();
 		cards.add(game.giveCard(player));
@@ -105,7 +108,9 @@ public class ClientSession extends Thread {
 		game.changeNextPlayer();
 		try {
 			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
-		} catch (FirstCardInPileException e) {}
+		} catch (FirstCardInPileException e) {
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), null));
+		}
 	}
 	
 	public synchronized void sendMessage(Message msg) {
@@ -200,12 +205,13 @@ public class ClientSession extends Thread {
 	 * @param kaart
 	 * @param varv
 	 */
-	public void recieveClientCard(Card card, Color varv) {
+	public void recieveClientCard(Card card, Card.Color varv) {
 		//game.validateCard(player, card);
-		System.out.println("clientis sõnumi töötlemine");
+		System.out.println("clientis sõnumi töötlemine-_värv on:" + varv);
 		if (validate(card)) {
 			card.action(this);
-			game.addCardToPile(player, card);
+			//game.setKillColor(varv);
+			game.addCardToPile(player, card, varv);
 		}	
 	}
 

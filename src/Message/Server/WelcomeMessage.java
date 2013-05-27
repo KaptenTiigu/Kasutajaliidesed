@@ -1,7 +1,5 @@
 package Message.Server;
 
-import java.util.ArrayList;
-
 import Game.Player;
 import Klient.Client;
 import Message.Message;
@@ -13,11 +11,9 @@ public class WelcomeMessage implements Message {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String playerName;
-	//private ArrayList<String> players;
 	
 	public WelcomeMessage (String name){
 		playerName = name;
-		//this.players = players;
 	}
 
 	@Override
@@ -30,13 +26,9 @@ public class WelcomeMessage implements Message {
 	}
 
 	@Override
-	public void onReceive(Player c) {
-		// TODO Auto-generated method stub
-		//c.makePlayer(new Player(playerName));
-	
-	}
-	
-	public String getPlayerName() {
-		return playerName;
+	public void onReceive(Client c) {
+		Player p = new Player(playerName);
+		c.setPlayer(p);
+		System.out.println("Olen mängija " + p.getName());
 	}
 }

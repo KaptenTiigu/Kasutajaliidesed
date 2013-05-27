@@ -25,7 +25,7 @@ import Game.Card.Color;
 public class UnoGame {
 	private Deck deck;
 	private Pile pile;
-	private Card.Color color;
+	private Card.Color killColor;
 	private List<Player> players = new ArrayList<Player>();
 	private OutboundMessages outQueue;
 	private String whoseTurn;
@@ -44,7 +44,7 @@ public class UnoGame {
 	 */
 	public synchronized void startGame(Player player) {
 		if (whoseTurn == null) whoseTurn = player.getName();
-			if (players.size() != 2) {//CPU LIIGA KÕRGE, HETKEL KAHE PLAYERIGA
+			if (players.size() < 2) {//mängijate arv
 				try {
 					System.out.println("jään waitima!");
 					this.wait();
@@ -89,8 +89,9 @@ public class UnoGame {
 	 * @param player - kaardi käija
 	 * @param card - käidud kaart
 	 */
-	public void addCardToPile(Player player, Card card) {
+	public void addCardToPile(Player player, Card card, Card.Color color) {
 		if (validateCard(player, card)) {
+				killColor = color;
 				Card sCard = getCard(card);
 				getPlayer(player.getName()).playCard(sCard/*getCard(card)*/);
 				pile.addCard(card);
@@ -101,31 +102,31 @@ public class UnoGame {
 				testiKaesOlevaidKaarte(getPlayer(player.getName()));
 				
 				changeNextPlayer();
-				System.out.println("Nüüd on " + whoseTurn + " käik");
-				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, card.getColor()));
+				System.out.println("Nüüd on " + whoseTurn + " käik, killColor on" + killColor);
+				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, killColor));
 		}
 	}
 	
 	/**
 	 * Järgmise mängija muutmine (See kes peab käima).
 	 */
+
 	public void changeNextPlayer() {
-		boolean next = false;
-		synchronized(whoseTurn) {
-			if(whoseTurn.equals(players.get(players.size() -1).getName())) {
-				whoseTurn = players.get(0).getName();
-			} else {
-				for (Player player : players) {
-					if (whoseTurn.equals(player.getName())) {
-						next = true;
-					} else if (next) {
-						whoseTurn = player.getName();
-						//System.out.println("teine player käiaks");
-					}			
-				}
-			}
-		}
-	}
+		  int currentIndex = 0;
+		  synchronized(whoseTurn) {
+		   if(whoseTurn.equals(players.get(players.size() -1).getName())) {
+		    whoseTurn = players.get(0).getName();
+		   } else {
+		    for (Player player : players) {
+		     if (whoseTurn.equals(player.getName())) {
+		      currentIndex = players.indexOf(player);
+		      break;
+		     } 
+		    }
+		    whoseTurn = players.get(currentIndex+1).getName();
+		   }
+		  }
+		 }
 	/*public void addCardToPlayer(Player player, Card card) {
 		for (Player a : players) {
 			if(a == player) {
@@ -243,6 +244,12 @@ public class UnoGame {
 		b.pickupCard(a);
 		return a;
 	}
+	public void setKillColor(Card.Color killColor) {
+		this.killColor = killColor;
+	}
+	public Card.Color getKillColor(Card.Color killColor) {
+		return killColor;
+	}
 	/**
 	 * MINGI MÕTTETU MEETOD, AINULT TESTIMISEKS
 	 * Mängija käes olevate kaartide tagastamine
@@ -261,14 +268,11 @@ public class UnoGame {
 	public boolean validateCard(Player player, Card card) {
 		Player play = getPlayer(player.getName());
 		List<Card> hand = play.getCards();
-		// Kas kaart on mängijal käes
 		for (Card kaart : hand) {
-			//System.out.println(kaart.getName());
 			if(kaart.getName().equals(card.getName())) {
 				System.out.println("SEEES");
-				//kas kaarti saab käia pilesse
 				try {
-					return card.compareCards(getLastPileCard(), null);
+					return card.compareCards(getLastPileCard(), killColor);
 				} catch(FirstCardInPileException err) {
 					return true;
 				}
