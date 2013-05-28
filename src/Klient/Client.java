@@ -47,7 +47,7 @@ public class Client extends Thread {
 	/**
 	 * Serveri nimi
 	 */
-	private String serveriName = "localhost";
+	private String serveriName = "25.57.221.19";
 	/**
 	 * Objektide sisselugemise striim.
 	 */
@@ -65,6 +65,7 @@ public class Client extends Thread {
 	 * Kasutaja konsooli kirjutamise lugeja
 	 */
 	private BufferedReader reader;
+	private boolean stopThread = false;
 
 	/**
 	 * Konstruktoris pannakse lõim käima.
@@ -97,7 +98,7 @@ public class Client extends Thread {
 			/*
 			 * PÕHILINE ELUTSÜKKEL
 			 */
-			while(true) {
+			while(!stopThread) {
 				// Uute sõnumite dekodeerimine
 				inQueue = l.newMessages();
 				if (!inQueue.isEmpty()) { 	// kas on midagi saabunud?
@@ -159,6 +160,12 @@ public class Client extends Thread {
 	 */
 	public void setPlayer(Player p) {
 		player = p;
+	}
+	/**
+	 * Threadi peatamine.
+	 */
+	public void setStopThread() {
+		stopThread = true;
 	}
 	/**
 	 * Mängija tagastamine

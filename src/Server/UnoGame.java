@@ -44,7 +44,7 @@ public class UnoGame {
 	 */
 	public synchronized void startGame(Player player) {
 		if (whoseTurn == null) whoseTurn = player.getName();
-			if (players.size() < 2) {//mängijate arv
+			if (players.size() < 3) {//mängijate arv
 				try {
 					System.out.println("jään waitima!");
 					this.wait();
@@ -228,6 +228,9 @@ public class UnoGame {
 	 * @return kaart
 	 */
 	public synchronized Card giveCard(Player player) {
+		  if (deck.getCards().isEmpty()) {
+			   addPileToDeck();
+			  }
 		Card a = deck.getCard();
 		Player b = getPlayer(player);
 		b.pickupCard(a);
@@ -239,6 +242,9 @@ public class UnoGame {
 	 * @return kaart
 	 */
 	public synchronized Card giveCard(String player) {
+		  if (deck.getCards().isEmpty()) {
+			   addPileToDeck();
+			  }
 		Card a = deck.getCard();
 		Player b = getPlayer(player);
 		b.pickupCard(a);
@@ -247,7 +253,7 @@ public class UnoGame {
 	public void setKillColor(Card.Color killColor) {
 		this.killColor = killColor;
 	}
-	public Card.Color getKillColor(Card.Color killColor) {
+	public Card.Color getKillColor() {
 		return killColor;
 	}
 	/**

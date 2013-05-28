@@ -15,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import exceptions.FirstCardInPileException;
+import exceptions.TooManyPlayersException;
 
 import Message.Server.PickUpCardsMessage;
+import Message.Server.RejectMessage;
 import Message.Server.ServerCardMessage;
 import Message.Server.StartingPlayersMessage;
 import Message.Server.WelcomeMessage;
@@ -39,6 +41,7 @@ public class ClientSession extends Thread {
 	Object incomingObject;
 	private UnoGame game;
 	private Player player;// = new Player(getName());
+	private final int maxNumberOfPlayers = 3;
 	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, UnoGame game) throws IOException {
 		setName("Player " + n);
 		player = new Player(getName());
@@ -59,6 +62,10 @@ public class ClientSession extends Thread {
 
 	public void run() {
 		try {
+			   if (activeSessions.getNumberOfClients() == maxNumberOfPlayers) {
+				   netOut.writeObject(new RejectMessage(getName()));
+				    throw new TooManyPlayersException();
+			   }
 			System.out.println("minu nimi on:" + getName());
 			activeSessions.addSession(this);
 			//Sisenimise sõnumi saatmine
@@ -88,6 +95,9 @@ public class ClientSession extends Thread {
 			System.out.println("CATCH" + getName());
 			//outgoingMessage = new TextMessage(getName() + " - avarii...");		
 			//outQueue.addMessage(outgoingMessage);
+		} catch (TooManyPlayersException e) {
+			// TODO Auto-generated catch block
+			System.out.println("UUS MÄNGIJA, AGA MÄNGIJATE LIIMIT TÄIS" + getName());
 		} finally {
 			try {
 				socket.close();
@@ -107,9 +117,9 @@ public class ClientSession extends Thread {
 		outQueue.addMessage(new PickUpCardsMessage(cards, this.getName()));
 		game.changeNextPlayer();
 		try {
-			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard()));
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard(), game.getKillColor()));
 		} catch (FirstCardInPileException e) {
-			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), null));
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), null, game.getKillColor()));
 		}
 	}
 	

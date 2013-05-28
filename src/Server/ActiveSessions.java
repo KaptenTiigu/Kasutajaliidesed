@@ -17,6 +17,10 @@ public class ActiveSessions {
 		return sessionList.iterator();
 	}
 	
+	 public int getNumberOfClients() {
+		  return sessionList.size();
+		 }
+	 
 	public synchronized ClientSession getNextClientSession(ClientSession session) {
 		boolean next = false;
 		//Kui session oli viimane, siis järgmine session on listis esimene.

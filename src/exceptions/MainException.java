@@ -1,5 +1,5 @@
 package exceptions;
 
-public class MainException extends Throwable {
+public class MainException extends Exception {
 
 }

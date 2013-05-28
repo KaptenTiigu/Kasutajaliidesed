@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Server {
 	private static final int PORT = 8888;
-	private static int playerNumber =0;
+	private static int playerNumber = 0;
 	//private ArrayList<String> names = new ArrayList<String>(Arrays.asList("Player 1", "Player 2", "Player 3"));
 
 	public static void main(String[] args) throws IOException {

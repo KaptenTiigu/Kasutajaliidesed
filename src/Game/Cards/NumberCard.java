@@ -19,7 +19,7 @@ public class NumberCard extends Card {
 
 	@Override
 	public void action(ClientSession sess) {
-		
+		//sess.drawCards(10);
 	}
 
 	@Override
