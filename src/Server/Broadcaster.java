@@ -31,7 +31,6 @@ class Broadcaster extends Thread {
 								break;
 							}
 						} else {
-								System.out.println("mustanahaline: " + message);
 								cli.sendMessage(message);
 							}
 						if (!cli.isAlive()) {

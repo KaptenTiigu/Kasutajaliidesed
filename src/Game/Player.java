@@ -1,4 +1,6 @@
 package Game;
+import gui.uix;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class Player {
 	 * Kas on mängija kord käia.
 	 */
 	private boolean permission = false;
-
+	
+	private uix userInterFace;
 	/**
 	 * Mängijat luues antakse talle nimi
 	 * @param name - mängija nimi
@@ -53,6 +56,14 @@ public class Player {
 		return name;
 	}
 	
+	public void setUserInterFace(uix userInterFace) {
+		this.userInterFace = userInterFace;
+	}
+	
+	public void startGame() {
+		userInterFace.startGame(hand);
+		System.out.println("START GAME ");
+	}
 	/**
 	 * Tapetava kaardi muutmine
 	 * @param card - tapetav kaart
@@ -67,6 +78,7 @@ public class Player {
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}else if(!kill.getName().equals(card.getName())) {
 			kill = card;
+			
 			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
 			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");

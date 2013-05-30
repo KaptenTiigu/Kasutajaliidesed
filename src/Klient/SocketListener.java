@@ -12,6 +12,7 @@ class SocketListener extends Thread {
 	private ObjectInputStream netIn;
 	private Socket socket;
 	private LinkedList<Message> inQueue;
+	private boolean stopThread = false;
 	
 	public SocketListener(Socket socket, ObjectInputStream in, LinkedList<Message> inQueue) {
 		this.netIn = in;
@@ -22,7 +23,7 @@ class SocketListener extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (true) { 		
+			while (!stopThread) { 		
 				Object fromServer = netIn.readObject(); 				// blocked...
 				if (fromServer != null) {
 					//System.out.println("UUS SÕNUM");
@@ -50,5 +51,11 @@ class SocketListener extends Thread {
 		synchronized (inQueue) {
 			return inQueue;
 		}
+	}
+	/**
+	 * Threadi peatamine.
+	 */
+	public void setStopThread() {
+		stopThread = true;
 	}
 }

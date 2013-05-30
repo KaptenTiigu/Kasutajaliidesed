@@ -40,6 +40,7 @@ public class PickUpCardsMessage implements Message {
 			//TESTIMISE EESMÄRGIL
 			System.out.println(p.getName()+">> Võtsin kätte:" + card.getName());
 		}
+		p.startGame();
 		//TESTIMISE EESMÄRGIL
 		//c.kaartidePrint();
 	}

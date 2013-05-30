@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import exceptions.UnknownColorNameException;
 import exceptions.UnknownInputException;
 import exceptions.UnsuitableCardException;
+import gui.uix;
 
 import Message.Message;
 import Message.Client.ClientCardMessage;
@@ -60,6 +61,9 @@ public class Client extends Thread {
 	 * Sissetulnud sõnumite list.
 	 */
 	private LinkedList<Message> inQueue = new LinkedList<Message>();  // FIFO
+	
+	private uix userInterface = new uix(this);
+	
 	private InetAddress servAddr;
 	/**
 	 * Kasutaja konsooli kirjutamise lugeja
@@ -106,6 +110,7 @@ public class Client extends Thread {
 						Iterator<Message> incoming = inQueue.iterator();
 						while (incoming.hasNext()) {
 							incoming.next().onReceive(this);
+							//if(player.getKillCard()!=null)userInterface.changekillCard(player.getKillCard().getName());
 							incoming.remove();
 						}
 					}
@@ -145,7 +150,7 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("closing...");
+			System.out.println("Mäng suletakse...");
 			try {
 				socket.close();
 			} catch (IOException e) {
@@ -160,6 +165,7 @@ public class Client extends Thread {
 	 */
 	public void setPlayer(Player p) {
 		player = p;
+		player.setUserInterFace(userInterface);
 	}
 	/**
 	 * Threadi peatamine.
@@ -313,4 +319,8 @@ public class Client extends Thread {
 				}
 				}
 	}*/
+	public void playCard(Card card) {
+		// TODO Auto-generated method stub
+		player.playCard(card);
+	}
 }

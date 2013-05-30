@@ -15,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import exceptions.FirstCardInPileException;
+import exceptions.GameWinException;
 import exceptions.TooManyPlayersException;
 
+import Message.Server.GameWinMessage;
 import Message.Server.PickUpCardsMessage;
 import Message.Server.RejectMessage;
 import Message.Server.ServerCardMessage;
@@ -42,6 +44,7 @@ public class ClientSession extends Thread {
 	private UnoGame game;
 	private Player player;// = new Player(getName());
 	private final int maxNumberOfPlayers = 3;
+	private boolean stopThread = false;
 	public ClientSession(Socket s, OutboundMessages out, ActiveSessions as, int n, UnoGame game) throws IOException {
 		setName("Player " + n);
 		player = new Player(getName());
@@ -72,7 +75,7 @@ public class ClientSession extends Thread {
 			sendMessage(new WelcomeMessage(getName()));
 			//Mängualguse sõnumi saatmine
 			startGame();
-			while (true) { 						// Kliendisessiooni elutsükli põhiosa ***
+			while (!stopThread) { 						// Kliendisessiooni elutsükli põhiosa ***
 				try {
 					game.checkMyTurn(player);
 					incomingObject = netIn.readObject();
@@ -107,6 +110,10 @@ public class ClientSession extends Thread {
 	public void addMessage(Message msg) {
 		outQueue.addMessage(msg);
 			}
+	
+	public void setStopThread() {
+		stopThread = true;
+	}
 	/**
 	 * Mängija võtab ühe kaardi ülesse
 	 */
@@ -126,7 +133,7 @@ public class ClientSession extends Thread {
 	public synchronized void sendMessage(Message msg) {
 		try {
 			if (!socket.isClosed()) {
-				System.out.println("Jou, just kirjutasin" + msg);
+				//System.out.println("Jou, just kirjutasin" + msg);
 				netOut.writeObject(msg);
 				netOut.reset();
 				//outQueue.addMessage(msg);
@@ -165,7 +172,7 @@ public class ClientSession extends Thread {
 	public void startGame() {
 		game.addPlayer(player);
 		game.startGame(player);
-		System.out.println(player + " lisan kaarte");
+		System.out.println(player.getName() + " annan alustuseks 5 kaarti");
 		addMessage(new PickUpCardsMessage(pickUpCards(5), this.getName()/*activeSessions.getNextClientSession(this).getName()*/));
 	}
 	/**
@@ -217,11 +224,15 @@ public class ClientSession extends Thread {
 	 */
 	public void recieveClientCard(Card card, Card.Color varv) {
 		//game.validateCard(player, card);
-		System.out.println("clientis sõnumi töötlemine-_värv on:" + varv);
+		System.out.println(getName() +" saatis kaardi: " + card.getName()+", värv: "+ varv);
 		if (validate(card)) {
 			card.action(this);
-			//game.setKillColor(varv);
-			game.addCardToPile(player, card, varv);
+			try {
+				game.addCardToPile(player, card, varv);
+			} catch (GameWinException e) {
+				outQueue.addMessage(new GameWinMessage(card, getName()));
+				//setStopThread();
+			}
 		}	
 	}
 

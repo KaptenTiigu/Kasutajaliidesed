@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import exceptions.FirstCardInPileException;
+import exceptions.GameWinException;
 
 import Message.Message;
 import Message.Server.ServerCardMessage;
@@ -44,7 +45,7 @@ public class UnoGame {
 	 */
 	public synchronized void startGame(Player player) {
 		if (whoseTurn == null) whoseTurn = player.getName();
-			if (players.size() < 3) {//mängijate arv
+			if (players.size() < 2) {//mängijate arv
 				try {
 					System.out.println("jään waitima!");
 					this.wait();
@@ -88,12 +89,14 @@ public class UnoGame {
 	 * Kaardi lisamine Pile (pealmise kaardi tampmine).
 	 * @param player - kaardi käija
 	 * @param card - käidud kaart
+	 * @throws GameWinException 
 	 */
-	public void addCardToPile(Player player, Card card, Card.Color color) {
+	public void addCardToPile(Player player, Card card, Card.Color color) throws GameWinException {
 		if (validateCard(player, card)) {
 				killColor = color;
 				Card sCard = getCard(card);
 				getPlayer(player.getName()).playCard(sCard/*getCard(card)*/);
+				if (getPlayer(player).getCards().isEmpty()) throw new GameWinException();
 				pile.addCard(card);
 				/*synchronized(this) {
 					this.notifyAll();
@@ -234,6 +237,7 @@ public class UnoGame {
 		Card a = deck.getCard();
 		Player b = getPlayer(player);
 		b.pickupCard(a);
+		System.out.println(player.getName() + " korjas ülesse " + a.getName());
 		return a;
 	}
 	/**
@@ -248,6 +252,7 @@ public class UnoGame {
 		Card a = deck.getCard();
 		Player b = getPlayer(player);
 		b.pickupCard(a);
+		System.out.println(player + " korjas ülesse " + a.getName());
 		return a;
 	}
 	public void setKillColor(Card.Color killColor) {
@@ -276,7 +281,7 @@ public class UnoGame {
 		List<Card> hand = play.getCards();
 		for (Card kaart : hand) {
 			if(kaart.getName().equals(card.getName())) {
-				System.out.println("SEEES");
+				//System.out.println("SEEES");
 				try {
 					return card.compareCards(getLastPileCard(), killColor);
 				} catch(FirstCardInPileException err) {
