@@ -28,7 +28,9 @@ public class WelcomeMessage implements Message {
 	@Override
 	public void onReceive(Client c) {
 		Player p = new Player(playerName);
+		c.makeUserInterFace();
 		c.setPlayer(p);
 		System.out.println("Olen mängija " + p.getName());
+		
 	}
 }

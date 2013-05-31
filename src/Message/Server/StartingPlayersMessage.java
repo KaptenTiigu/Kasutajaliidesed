@@ -45,6 +45,7 @@ public class StartingPlayersMessage implements Message {
 		} else {
 			p.setPermission(false);
 		}
+		p.startGame();
 		
 	}
 

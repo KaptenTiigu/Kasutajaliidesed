@@ -45,7 +45,7 @@ public class UnoGame {
 	 */
 	public synchronized void startGame(Player player) {
 		if (whoseTurn == null) whoseTurn = player.getName();
-			if (players.size() < 2) {//mängijate arv
+			if (players.size() < 3) {//mängijate arv
 				try {
 					System.out.println("jään waitima!");
 					this.wait();
@@ -106,7 +106,7 @@ public class UnoGame {
 				
 				changeNextPlayer();
 				System.out.println("Nüüd on " + whoseTurn + " käik, killColor on" + killColor);
-				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, killColor));
+				outQueue.addMessage(new ServerCardMessage(whoseTurn, card, killColor, players));
 		}
 	}
 	
@@ -304,6 +304,11 @@ public class UnoGame {
 		for (Card kaart : hand) {
 			System.out.println(kaart.getName());
 		}
+	}
+
+	public List<Player> getPlayers() {
+		// TODO Auto-generated method stub
+		return players;
 	}
 	
 }

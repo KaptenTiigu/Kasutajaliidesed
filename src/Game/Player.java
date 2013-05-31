@@ -1,6 +1,7 @@
 package Game;
 import gui.uix;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,11 @@ import java.util.List;
  * @author Marko Vanaveski
  *
  */
-public class Player {
+public class Player implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Mängija nimi
 	 */
@@ -33,7 +38,7 @@ public class Player {
 	/**
 	 * Värv, mis värvi kaarti tohib panna
 	 */
-	private Card.Color killColor;
+	private Card.Color killColor = Card.Color.NONE;
 	/**
 	 * Kas on mängija kord käia.
 	 */
@@ -61,7 +66,7 @@ public class Player {
 	}
 	
 	public void startGame() {
-		userInterFace.startGame(hand);
+		userInterFace.startGame(players, hand, 5);
 		System.out.println("START GAME ");
 	}
 	/**
@@ -73,20 +78,20 @@ public class Player {
 			kill = card;
 			if(kill!=null)System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
 			else System.out.println("Lauale ei käidud midagi, võeti pakist kaart");
-			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
+			if(killColor!=Card.Color.NONE)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}else if(!kill.getName().equals(card.getName())) {
 			kill = card;
 			
 			System.out.println("Lauale käidi "+kill.getColor() + " " + kill.getValue());
-			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
+			if(killColor!=Card.Color.NONE)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		} else {
 			System.out.println("Eelmine mängija võttis kaardi");
 			System.out.println("Tapetav kaart" + kill.getName());
-			if(killColor!=null)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
+			if(killColor!=Card.Color.NONE)System.out.println("Pead käima kaardi, mille värv on: " + killColor);
 			if(permission)System.out.println("------------------------SINU KÄIK!------------------------");
 			else System.out.println("------------------------VASTASE KÄIK!------------------------");
 		}

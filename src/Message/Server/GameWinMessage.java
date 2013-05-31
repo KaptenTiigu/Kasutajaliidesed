@@ -30,6 +30,7 @@ public class GameWinMessage implements Message {
 		p.addKillCard(kaart);
 		p.setPermission(false);
 		System.out.println("GAME OVER - VÕTIS: "+ winner.toUpperCase());
+		c.gameWinner(winner);
 		c.setStopThread();
 	}
 

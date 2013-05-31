@@ -124,9 +124,9 @@ public class ClientSession extends Thread {
 		outQueue.addMessage(new PickUpCardsMessage(cards, this.getName()));
 		game.changeNextPlayer();
 		try {
-			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard(), game.getKillColor()));
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), game.getLastPileCard(), game.getKillColor(), game.getPlayers()));
 		} catch (FirstCardInPileException e) {
-			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), null, game.getKillColor()));
+			outQueue.addMessage(new ServerCardMessage(game.whoseTurn(), null, game.getKillColor(), game.getPlayers()));
 		}
 	}
 	
@@ -156,11 +156,11 @@ public class ClientSession extends Thread {
 			Message send;
 			if (color != null) {
 				String next = activeSessions.getNextClientSession(this).getName();
-				send = new ServerCardMessage(next, card);
+				send = new ServerCardMessage(next, card, Card.Color.NONE, game.getPlayers());
 			} else {
 				
 				String next = activeSessions.getNextClientSession(this).getName();
-				send = new ServerCardMessage(next, card, color);
+				send = new ServerCardMessage(next, card, color, game.getPlayers());
 			}
 			return send;
 		}
@@ -196,7 +196,9 @@ public class ClientSession extends Thread {
 	public void drawCards(int amount) {
 		game.changeNextPlayer();
 		List<Card> cards = new ArrayList<Card>();
+		System.out.println("anna");
 		for (int i=0;i<amount;i++) {
+			System.out.println("arv");
 			cards.add(game.giveCard(game.whoseTurn()));
 		}
 		addMessage(new PickUpCardsMessage(cards, game.whoseTurn()));
@@ -226,7 +228,9 @@ public class ClientSession extends Thread {
 		//game.validateCard(player, card);
 		System.out.println(getName() +" saatis kaardi: " + card.getName()+", värv: "+ varv);
 		if (validate(card)) {
+			System.out.println("HEI VALIDEERITUD!");
 			card.action(this);
+			System.out.println("HEI ACTION TEHTUD!");
 			try {
 				game.addCardToPile(player, card, varv);
 			} catch (GameWinException e) {

@@ -1,5 +1,7 @@
 package Message.Server;
 
+import java.util.List;
+
 import Game.Card;
 import Game.Card.Color;
 import Game.Player;
@@ -21,20 +23,21 @@ public class ServerCardMessage implements Message {
 	private String address;
 	private Card.Color varv;
 	private String jargmine;
-
-	public ServerCardMessage(String next, Card card, Color color) {
+	private List<Player> players;
+	public ServerCardMessage(String next, Card card, Color color, List<Player> players) {
 		// TODO Auto-generated constructor stub
 		this.kaart = card;
 		//this.address = address;
 		this.varv = color;
 		this.jargmine = next;
+		this.players = players;
 	}
 
-	public ServerCardMessage(/*String address, */String jargmine, Card kaart) {
+	/*public ServerCardMessage(String jargmine, Card kaart) {
 		this.kaart = kaart;
 		//this.address = address;
 		this.jargmine = jargmine;
-	}
+	}*/
 	
 	@Override
 	public void onReceive(ClientSession s) {
@@ -55,7 +58,8 @@ public class ServerCardMessage implements Message {
 			p.setPermission(false);
 		}
 		p.addKillCard(kaart);
-			//c.killCard();
+		if(kaart!=null)c.addKillCard(kaart.getName(), players);
+
 	}
 
 	@Override

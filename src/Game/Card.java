@@ -16,7 +16,7 @@ public abstract class Card implements Serializable{
 	 * Kaardi v‰rvilised v‰‰rtused
 	 */
 	public enum Color {
-		BLUE, RED, GREEN, YELLOW;
+		BLUE, RED, GREEN, YELLOW, NONE;
 	}
 	/**
 	 * Kaardi nimelised v‰‰rtused
@@ -37,7 +37,8 @@ public abstract class Card implements Serializable{
 	public Card(Color col, Value val) {
 		this.color = col;
 		this.value = val;
-		name = col + " " + value;
+		if(col == Card.Color.NONE) name = "" +value;
+		else name = col + " " + value;
 	}
 	
 	/**
@@ -61,25 +62,28 @@ public abstract class Card implements Serializable{
 	public String getName(){
 		return name;
 	}
-	/**
-	 * Kaartide vırdlemine. Kas etteantud kaarti vıib k‰ia lauale.
-	 * @param card - kaart
-	 * @param col - v‰rvus
-	 * @return true - kui kaarti tohib k‰ia, false - kui kaarti ei tohi k‰ia
-	 */
-	public boolean compareCards(Card card, Color col) {
-		if (col == null) {
-			if (value.compareTo(card.getValue()) == 0 || color.compareTo(card.getColor()) == 0) {
-				return true;
-			}
-			return false;
-		} else {
-			if (color.compareTo(col) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
+	 /**
+	  * Kaartide vırdlemine. Kas etteantud kaarti vıib k‰ia lauale.
+	  * @param card - kaart
+	  * @param killColor - tapetava kaardi v‰rv
+	  * @return true - kui kaarti tohib k‰ia, false - kui kaarti ei tohi k‰ia
+	  */
+	 public boolean compareCards(Card card, Color killColor) {
+	  if(color.compareTo(Color.NONE) == 0) {
+	   return true;
+	  }
+	  if (killColor.compareTo(Color.NONE) == 0) {
+	   if (value.compareTo(card.getValue()) == 0 || color.compareTo(card.getColor()) == 0) {
+	    return true;
+	   }
+	   return false;
+	  } else {
+	   if (color.compareTo(killColor) == 0) {
+	    return true;
+	   }
+	  }
+	  return false;
+	 }
 	/**
 	 * Meetod, mis aktiveerib erisugused tegevused serveris, mis antud kaardiga seotud on.
 	 */

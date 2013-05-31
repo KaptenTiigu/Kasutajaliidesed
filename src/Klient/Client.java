@@ -8,8 +8,10 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import exceptions.UnknownColorNameException;
 import exceptions.UnknownInputException;
@@ -62,7 +64,7 @@ public class Client extends Thread {
 	 */
 	private LinkedList<Message> inQueue = new LinkedList<Message>();  // FIFO
 	
-	private uix userInterface = new uix(this);
+	private uix userInterface;
 	
 	private InetAddress servAddr;
 	/**
@@ -70,6 +72,7 @@ public class Client extends Thread {
 	 */
 	private BufferedReader reader;
 	private boolean stopThread = false;
+	private boolean sending = false;
 
 	/**
 	 * Konstruktoris pannakse lõim käima.
@@ -109,6 +112,7 @@ public class Client extends Thread {
 					synchronized (inQueue) { 					// lukku !!!
 						Iterator<Message> incoming = inQueue.iterator();
 						while (incoming.hasNext()) {
+							setSending(false);
 							incoming.next().onReceive(this);
 							//if(player.getKillCard()!=null)userInterface.changekillCard(player.getKillCard().getName());
 							incoming.remove();
@@ -116,7 +120,7 @@ public class Client extends Thread {
 					}
 				}
 				//kasutaja sisendi võtmine
-				if(player != null) {
+				/*if(player != null) {
 					if(player.getPermission() && !player.getCards().isEmpty()) {
 						System.out.println("Sisesta kaardi nimi või (PICKUP et saada uus kaart," +
 								" CARDS et nähe käes olevaid kaarte)");
@@ -144,7 +148,7 @@ public class Client extends Thread {
 							}
 						}
 					}//permission
-				}//player!=null
+				}*///player!=null
 			} //while true
 			
 		} catch (IOException e) {
@@ -158,7 +162,16 @@ public class Client extends Thread {
 			}
 		}
 	}//run
+	public void makeUserInterFace(){
+		userInterface= new uix(this);
+	}
 	
+	public Card.Color getKillColor() {
+		return player.getColor();
+	}
+	public void setPermission(boolean permission) {
+		player.setPermission(permission);
+	}
 	/**
 	 * Mängija tegemine
 	 * @param p - mängija
@@ -166,6 +179,34 @@ public class Client extends Thread {
 	public void setPlayer(Player p) {
 		player = p;
 		player.setUserInterFace(userInterface);
+	}
+	
+	public void setSending(boolean sending) {
+		this.sending = sending;
+	}
+	public boolean getSending() {
+		return sending;
+	}
+	public boolean checkPermission() {
+		if(player.getPermission())return true;
+		else return false;
+	}
+	
+	public void gameWinner(String winner) {
+		userInterface.win(winner);
+	}
+	
+	public void changeUIhand() {
+		userInterface.changeHand(player.getCards());
+	}
+	public void addKillCard(String cardName, List<Player> players) {
+		List<Player> newList = new ArrayList<Player>();
+		for (Player listPlayer : players) {
+			if(!listPlayer.getName().equals(player.getName())) {
+				newList.add(listPlayer);
+			}
+		}
+		userInterface.changekillCard(cardName, newList);
 	}
 	/**
 	 * Threadi peatamine.
@@ -223,6 +264,12 @@ public class Client extends Thread {
 			if(!card.compareCards(kill, player.getColor())) throw new UnsuitableCardException();
 		}
 	}
+	
+	public void sendGIUwildCard(Card card, Card.Color color) {
+		try {
+			netOut.writeObject(new ClientCardMessage(card, color));
+		} catch (IOException e) {}
+	}
 	/**
 	 * KASUTAJA INPUT
 	 * Värvi valimine.
@@ -232,9 +279,9 @@ public class Client extends Thread {
 	 * @throws UnknownColorNameException kui sellise nimega värvi ei eksisteeri
 	 */
 	public Card.Color chooseColor(Card card) throws IOException, UnknownColorNameException {
-		Card.Color color = null;
+		Card.Color color = Card.Color.NONE;
 		if(card.chooseColor()) {
-			while(color==null) {
+			while(color==Card.Color.NONE) {
 				System.out.println("Sisesta kaardi värvus, mille peab järgmine mängija käima");
 				String input = reader.readLine().toUpperCase();
 				//exceptioni peaks tegelt siia vist panema
@@ -252,8 +299,8 @@ public class Client extends Thread {
 				}
 			}
 		}
-		player.addColor(null);
-		return null;
+		player.addColor(Card.Color.NONE);
+		return Card.Color.NONE;
 	}
 	/*
 	 * MINGI MÕTTETU JURA, VANA KOOD LIHTSALT JÄTSIN ALLES PRAEGU
@@ -322,5 +369,11 @@ public class Client extends Thread {
 	public void playCard(Card card) {
 		// TODO Auto-generated method stub
 		player.playCard(card);
+		try {
+			netOut.writeObject(new ClientCardMessage(card, Card.Color.NONE));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
