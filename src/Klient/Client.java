@@ -1,4 +1,4 @@
-package Klient;
+package klient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +13,20 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import exceptions.UnknownColorNameException;
-import exceptions.UnknownInputException;
-import exceptions.UnsuitableCardException;
-import gui.uix;
+import yhiskasutatavad.Card;
+import yhiskasutatavad.Message;
+import yhiskasutatavad.Player;
 
-import Message.Message;
-import Message.Client.ClientCardMessage;
-import Message.Client.ClientPickUpMessage;
+import klient.exceptions.UnknownColorNameException;
+import klient.exceptions.UnknownInputException;
+import klient.exceptions.UnsuitableCardException;
+import klient.gui.GUI;
+import klient.messages.ClientCardMessage;
+import klient.messages.ClientPickUpMessage;
+import klient.messages.NewGameMessage;
 
-import Game.Card;
-import Game.Player;
+
+
 
 
 /**
@@ -64,7 +67,7 @@ public class Client extends Thread {
 	 */
 	private LinkedList<Message> inQueue = new LinkedList<Message>();  // FIFO
 	
-	private uix userInterface;
+	private GUI userInterface;
 	
 	private InetAddress servAddr;
 	/**
@@ -119,6 +122,13 @@ public class Client extends Thread {
 						}
 					}
 				}
+				synchronized(l.getUks()) {
+					try {
+						if(l.newMessages().isEmpty()) {
+							l.getUks().wait();
+						}	
+					} catch (InterruptedException e) {System.out.println("Mind aratati unest,poole pealt");}
+				}
 				//kasutaja sisendi võtmine
 				/*if(player != null) {
 					if(player.getPermission() && !player.getCards().isEmpty()) {
@@ -163,9 +173,20 @@ public class Client extends Thread {
 		}
 	}//run
 	public void makeUserInterFace(){
-		userInterface= new uix(this);
+		userInterface= new GUI(this);
 	}
-	
+	/**
+	 * Liitume uue mänguga.
+	 */
+	public void joinNewGame() {
+		try {
+			System.out.println("Ühinen uue mänguga");
+			netOut.writeObject(new NewGameMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public Card.Color getKillColor() {
 		return player.getColor();
 	}
@@ -180,7 +201,9 @@ public class Client extends Thread {
 		player = p;
 		player.setUserInterFace(userInterface);
 	}
-	
+	public void resetHand(){
+		player.resetHand();
+	}
 	public void setSending(boolean sending) {
 		this.sending = sending;
 	}
@@ -267,6 +290,7 @@ public class Client extends Thread {
 	
 	public void sendGIUwildCard(Card card, Card.Color color) {
 		try {
+			player.playCard(card);
 			netOut.writeObject(new ClientCardMessage(card, color));
 		} catch (IOException e) {}
 	}

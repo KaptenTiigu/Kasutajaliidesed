@@ -1,0 +1,23 @@
+22:39:26	Mänguga liitus Player 7
+22:41:56	Mänguga liitus Player 6
+22:41:57	Mänguga liitus Player 5
+22:41:57	3 mängijat koos
+22:41:57	Player 5 võttis ülesse BLUE SEVEN
+22:41:57	Player 5 võttis ülesse RED NINE
+22:41:57	Player 5 võttis ülesse WILD
+22:41:57	Player 5 võttis ülesse RED ZERO
+22:41:57	Player 5 võttis ülesse BLUE THREE
+22:41:57	Player 6 võttis ülesse RED SEVEN
+22:41:57	Player 6 võttis ülesse GREEN FOUR
+22:41:57	Player 6 võttis ülesse GREEN SEVEN
+22:41:57	Player 6 võttis ülesse GREEN EIGHT
+22:41:57	Player 6 võttis ülesse RED TWO
+22:41:57	Player 7 võttis ülesse GREEN SIX
+22:41:57	Player 7 võttis ülesse BLUE EIGHT
+22:41:57	Player 7 võttis ülesse BLUE ONE
+22:41:57	Player 7 võttis ülesse GREEN DRAWTWO
+22:41:57	Player 7 võttis ülesse YELLOW TWO
+22:42:34	Player 6 käis kaardi RED TWO
+22:42:34	Player 5kord on käia
+22:42:41	Player 5 käis kaardi RED ZERO
+22:42:41	Player 6kord on käia

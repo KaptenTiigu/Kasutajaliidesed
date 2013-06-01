@@ -1,0 +1,79 @@
+23:19:23	Mänguga liitus Player 2
+23:21:03	Mänguga liitus Player 1
+23:21:08	Mänguga liitus Player 5
+23:21:08	3 mängijat koos
+23:21:08	Player 1 võttis ülesse GREEN DRAWTWO
+23:21:08	Player 1 võttis ülesse YELLOW SKIP
+23:21:08	Player 1 võttis ülesse RED EIGHT
+23:21:08	Player 1 võttis ülesse WILDDRAWFOUR
+23:21:08	Player 1 võttis ülesse GREEN FOUR
+23:21:08	Player 5 võttis ülesse RED FIVE
+23:21:08	Player 5 võttis ülesse YELLOW EIGHT
+23:21:08	Player 5 võttis ülesse WILDDRAWFOUR
+23:21:08	Player 5 võttis ülesse GREEN SKIP
+23:21:08	Player 5 võttis ülesse YELLOW SEVEN
+23:21:08	Player 2 võttis ülesse BLUE EIGHT
+23:21:08	Player 2 võttis ülesse YELLOW SIX
+23:21:08	Player 2 võttis ülesse WILDDRAWFOUR
+23:21:08	Player 2 võttis ülesse YELLOW DRAWTWO
+23:21:08	Player 2 võttis ülesse GREEN TWO
+23:21:15	Player 1 võttis ülesse BLUE FOUR
+23:21:15	Player 1 võttis ülesse YELLOW TWO
+23:21:15	Player 1 võttis ülesse RED SEVEN
+23:21:15	Player 1 võttis ülesse RED NINE
+23:21:15	Player 2 käis kaardi WILDDRAWFOUR
+23:21:15	Player 5kord on käia
+23:21:20	Player 2 võttis ülesse WILD
+23:21:20	Player 2 võttis ülesse RED SKIP
+23:21:20	Player 2 võttis ülesse RED FOUR
+23:21:20	Player 2 võttis ülesse RED DRAWTWO
+23:21:20	Player 5 käis kaardi WILDDRAWFOUR
+23:21:20	Player 1kord on käia
+23:21:29	Player 1 käis kaardi YELLOW SKIP
+23:21:29	Player 2kord on käia
+23:21:37	Player 2 käis kaardi YELLOW SIX
+23:21:37	Player 1kord on käia
+23:22:09	Player 1 käis kaardi YELLOW TWO
+23:22:09	Player 5kord on käia
+23:22:10	Player 5 käis kaardi YELLOW SEVEN
+23:22:10	Player 2kord on käia
+23:22:13	Player 1 võttis ülesse RED SIX
+23:22:13	Player 1 võttis ülesse GREEN ONE
+23:22:13	Player 2 käis kaardi YELLOW DRAWTWO
+23:22:13	Player 5kord on käia
+23:22:15	Player 5 käis kaardi YELLOW EIGHT
+23:22:15	Player 2kord on käia
+23:22:19	Player 2 käis kaardi BLUE EIGHT
+23:22:19	Player 1kord on käia
+23:22:29	Player 1 käis kaardi BLUE FOUR
+23:22:29	Player 5kord on käia
+23:22:32	Player 5 võttis ülesse BLUE SEVEN
+23:22:36	Player 2 käis kaardi RED FOUR
+23:22:36	Player 1kord on käia
+23:22:46	Player 1 käis kaardi GREEN FOUR
+23:22:46	Player 5kord on käia
+23:22:53	Player 5 käis kaardi GREEN SKIP
+23:22:53	Player 1kord on käia
+23:23:03	Player 5 võttis ülesse GREEN NINE
+23:23:03	Player 5 võttis ülesse YELLOW ONE
+23:23:03	Player 1 käis kaardi GREEN DRAWTWO
+23:23:03	Player 2kord on käia
+23:23:06	Player 2 käis kaardi GREEN TWO
+23:23:06	Player 1kord on käia
+23:23:14	Player 1 käis kaardi GREEN ONE
+23:23:14	Player 5kord on käia
+23:23:17	Player 5 käis kaardi GREEN NINE
+23:23:17	Player 2kord on käia
+23:23:21	Player 2 käis kaardi WILD
+23:23:21	Player 1kord on käia
+23:23:33	Player 1 käis kaardi RED NINE
+23:23:33	Player 5kord on käia
+23:23:44	Player 5 käis kaardi RED FIVE
+23:23:44	Player 2kord on käia
+23:23:46	Player 1 võttis ülesse WILDDRAWFOUR
+23:23:46	Player 1 võttis ülesse GREEN FIVE
+23:23:46	Player 2 käis kaardi RED DRAWTWO
+23:23:46	Player 5kord on käia
+23:23:50	Player 5 võttis ülesse GREEN ZERO
+23:23:52	Player 2 käis kaardi RED SKIP
+23:23:52	Mäng läbi! Võitis Player 2

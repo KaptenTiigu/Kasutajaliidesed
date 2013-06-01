@@ -1,0 +1,54 @@
+22:38:05	Mänguga liitus Player 4
+22:38:41	Mänguga liitus Player 5
+22:39:10	Mänguga liitus Player 6
+22:39:10	3 mängijat koos
+22:39:10	Player 6 võttis ülesse WILDDRAWFOUR
+22:39:10	Player 6 võttis ülesse GREEN NINE
+22:39:10	Player 6 võttis ülesse BLUE FOUR
+22:39:10	Player 6 võttis ülesse RED SIX
+22:39:10	Player 6 võttis ülesse WILD
+22:39:10	Player 5 võttis ülesse GREEN EIGHT
+22:39:10	Player 5 võttis ülesse BLUE SKIP
+22:39:10	Player 5 võttis ülesse WILDDRAWFOUR
+22:39:10	Player 5 võttis ülesse RED FIVE
+22:39:10	Player 5 võttis ülesse BLUE FIVE
+22:39:10	Player 4 võttis ülesse RED ONE
+22:39:10	Player 4 võttis ülesse YELLOW FOUR
+22:39:10	Player 4 võttis ülesse BLUE THREE
+22:39:10	Player 4 võttis ülesse WILD
+22:39:10	Player 4 võttis ülesse WILDDRAWFOUR
+22:39:22	Player 4 käis kaardi BLUE THREE
+22:39:22	Player 5kord on käia
+22:39:32	Player 5 käis kaardi BLUE SKIP
+22:39:32	Player 4kord on käia
+22:39:39	Player 5 võttis ülesse GREEN TWO
+22:39:39	Player 5 võttis ülesse BLUE DRAWTWO
+22:39:39	Player 5 võttis ülesse YELLOW ONE
+22:39:39	Player 5 võttis ülesse RED DRAWTWO
+22:39:39	Player 4 käis kaardi WILDDRAWFOUR
+22:39:39	Player 6kord on käia
+22:39:59	Player 4 võttis ülesse YELLOW TWO
+22:39:59	Player 4 võttis ülesse RED THREE
+22:39:59	Player 4 võttis ülesse RED FOUR
+22:39:59	Player 4 võttis ülesse BLUE SEVEN
+22:39:59	Player 6 käis kaardi WILDDRAWFOUR
+22:39:59	Player 5kord on käia
+22:40:06	Player 5 käis kaardi RED FIVE
+22:40:06	Player 6kord on käia
+22:40:14	Player 6 käis kaardi RED SIX
+22:40:14	Player 4kord on käia
+22:40:44	Player 4 käis kaardi RED FOUR
+22:40:44	Player 5kord on käia
+22:40:56	Player 5 võttis ülesse BLUE NINE
+22:41:02	Player 6 käis kaardi BLUE FOUR
+22:41:02	Player 4kord on käia
+22:41:03	Player 4 käis kaardi BLUE SEVEN
+22:41:03	Player 5kord on käia
+22:41:12	Player 5 käis kaardi BLUE FIVE
+22:41:12	Player 6kord on käia
+22:41:20	Player 6 käis kaardi WILD
+22:41:20	Player 4kord on käia
+22:41:45	Player 5 käis kaardi GREEN TWO
+22:41:45	Player 6kord on käia
+22:41:50	Player 6 käis kaardi GREEN NINE
+22:41:50	Mäng läbi! Võitis Player 6

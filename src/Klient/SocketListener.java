@@ -1,11 +1,12 @@
-package Klient;
+package klient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.LinkedList;
 
-import Message.Message;
+import yhiskasutatavad.Message;
+
 
 
 class SocketListener extends Thread {
@@ -13,6 +14,7 @@ class SocketListener extends Thread {
 	private Socket socket;
 	private LinkedList<Message> inQueue;
 	private boolean stopThread = false;
+	private String uks ="closed";
 	
 	public SocketListener(Socket socket, ObjectInputStream in, LinkedList<Message> inQueue) {
 		this.netIn = in;
@@ -32,6 +34,10 @@ class SocketListener extends Thread {
 						inQueue.add(message);		
 						//if(!inQueue.isEmpty())System.out.println("UUS SÕNUM2");
 					}
+					synchronized(uks) {
+						uks.notifyAll();
+					}
+					
 				}
 			}
 		} catch (IOException e) {//System.out.println("IOIOIOIOI");
@@ -51,6 +57,9 @@ class SocketListener extends Thread {
 		synchronized (inQueue) {
 			return inQueue;
 		}
+	}
+	public synchronized String getUks(){
+		return uks;
 	}
 	/**
 	 * Threadi peatamine.

@@ -1,0 +1,53 @@
+15:12:21	Mänguga liitus Player 1
+15:12:22	Mänguga liitus Player 2
+15:12:22	Mänguga liitus Player 3
+15:12:22	3 mängijat koos
+15:12:22	Player 3 võttis ülesse RED NINE
+15:12:22	Player 3 võttis ülesse YELLOW FIVE
+15:12:22	Player 3 võttis ülesse RED ONE
+15:12:22	Player 3 võttis ülesse BLUE FOUR
+15:12:22	Player 3 võttis ülesse RED SKIP
+15:12:22	Player 2 võttis ülesse RED ZERO
+15:12:22	Player 2 võttis ülesse WILD
+15:12:22	Player 2 võttis ülesse WILDDRAWFOUR
+15:12:22	Player 2 võttis ülesse YELLOW FOUR
+15:12:22	Player 2 võttis ülesse GREEN FOUR
+15:12:22	Player 1 võttis ülesse GREEN SIX
+15:12:22	Player 1 võttis ülesse GREEN SKIP
+15:12:22	Player 1 võttis ülesse GREEN TWO
+15:12:22	Player 1 võttis ülesse YELLOW TWO
+15:12:22	Player 1 võttis ülesse WILD
+15:12:29	Player 1 käis kaardi GREEN TWO
+15:12:29	Player 2kord on käia
+15:12:31	Player 2 käis kaardi GREEN FOUR
+15:12:31	Player 3kord on käia
+15:12:34	Player 3 käis kaardi BLUE FOUR
+15:12:34	Player 1kord on käia
+15:12:47	Player 1 käis kaardi WILD
+15:12:47	Player 2kord on käia
+15:12:52	Player 3 võttis ülesse RED THREE
+15:12:52	Player 3 võttis ülesse YELLOW ZERO
+15:12:52	Player 3 võttis ülesse BLUE THREE
+15:12:52	Player 3 võttis ülesse YELLOW ONE
+15:12:52	Player 2 käis kaardi WILDDRAWFOUR
+15:12:52	Player 1kord on käia
+15:12:54	Player 1 käis kaardi YELLOW TWO
+15:12:54	Player 2kord on käia
+15:12:56	Player 2 käis kaardi YELLOW FOUR
+15:12:56	Player 3kord on käia
+15:12:58	Player 3 käis kaardi YELLOW ONE
+15:12:58	Player 1kord on käia
+15:13:01	Player 1 võttis ülesse WILD
+15:13:05	Player 2 käis kaardi WILD
+15:13:05	Player 3kord on käia
+15:13:07	Player 3 käis kaardi RED ONE
+15:13:07	Player 1kord on käia
+15:13:11	Player 1 käis kaardi WILD
+15:13:11	Player 2kord on käia
+15:13:14	Player 2 võttis ülesse BLUE TWO
+15:13:19	Player 3 võttis ülesse BLUE ZERO
+15:13:24	Player 1 käis kaardi GREEN SKIP
+15:13:24	Player 3kord on käia
+15:13:27	Player 3 võttis ülesse RED TWO
+15:13:29	Player 1 käis kaardi GREEN SIX
+15:13:29	Mäng läbi! Võitis Player 1

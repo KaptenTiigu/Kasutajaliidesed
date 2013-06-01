@@ -1,0 +1,53 @@
+14:44:22	Mänguga liitus Player 1
+14:44:23	Mänguga liitus Player 2
+14:44:23	Mänguga liitus Player 3
+14:44:24	3 mängijat koos
+14:44:24	Player 2 võttis ülesse WILD
+14:44:24	Player 2 võttis ülesse BLUE EIGHT
+14:44:24	Player 2 võttis ülesse GREEN SEVEN
+14:44:24	Player 2 võttis ülesse GREEN ZERO
+14:44:24	Player 2 võttis ülesse BLUE ZERO
+14:44:24	Player 3 võttis ülesse YELLOW FOUR
+14:44:24	Player 3 võttis ülesse RED TWO
+14:44:24	Player 3 võttis ülesse GREEN SKIP
+14:44:24	Player 3 võttis ülesse RED SKIP
+14:44:24	Player 3 võttis ülesse WILD
+14:44:24	Player 1 võttis ülesse YELLOW FIVE
+14:44:24	Player 1 võttis ülesse RED NINE
+14:44:24	Player 1 võttis ülesse BLUE DRAWTWO
+14:44:24	Player 1 võttis ülesse GREEN NINE
+14:44:24	Player 1 võttis ülesse YELLOW SIX
+14:45:27	Player 1 käis kaardi YELLOW SIX
+14:45:27	Player 2kord on käia
+14:45:38	Player 2 käis kaardi WILD
+14:45:38	Player 3kord on käia
+14:45:44	Player 3 käis kaardi WILD
+14:45:44	Player 1kord on käia
+14:45:46	Player 1 käis kaardi GREEN NINE
+14:45:46	Player 2kord on käia
+14:45:49	Player 2 käis kaardi GREEN ZERO
+14:45:49	Player 3kord on käia
+14:46:10	Player 1 võttis ülesse WILDDRAWFOUR
+14:46:14	Player 2 käis kaardi GREEN SEVEN
+14:46:14	Player 1kord on käia
+14:46:20	Player 1 võttis ülesse BLUE TWO
+14:46:23	Player 2 võttis ülesse YELLOW ZERO
+14:46:25	Player 1 võttis ülesse BLUE FIVE
+14:46:28	Player 2 võttis ülesse YELLOW TWO
+14:46:31	Player 1 võttis ülesse GREEN THREE
+14:46:44	Player 2 võttis ülesse BLUE ONE
+14:46:46	Player 1 käis kaardi GREEN THREE
+14:46:46	Player 2kord on käia
+14:46:49	Player 2 võttis ülesse GREEN ONE
+14:47:00	Player 2 käis kaardi GREEN ONE
+14:47:00	Player 2kord on käia
+14:47:01	Player 2 käis kaardi BLUE ONE
+14:47:01	Player 2kord on käia
+14:47:03	Player 2 käis kaardi BLUE EIGHT
+14:47:03	Player 2kord on käia
+14:47:04	Player 2 käis kaardi BLUE ZERO
+14:47:04	Player 2kord on käia
+14:47:04	Player 2 käis kaardi YELLOW ZERO
+14:47:04	Player 2kord on käia
+14:47:05	Player 2 käis kaardi YELLOW TWO
+14:47:05	Mäng läbi! Võitis Player 2

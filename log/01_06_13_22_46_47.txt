@@ -1,0 +1,19 @@
+22:46:49	Mänguga liitus Player 13
+22:46:50	Mänguga liitus Player 14
+22:46:52	Mänguga liitus Player 15
+22:46:52	3 mängijat koos
+22:46:52	Player 15 võttis ülesse RED NINE
+22:46:52	Player 15 võttis ülesse WILDDRAWFOUR
+22:46:52	Player 15 võttis ülesse BLUE THREE
+22:46:52	Player 15 võttis ülesse YELLOW EIGHT
+22:46:52	Player 15 võttis ülesse WILDDRAWFOUR
+22:46:52	Player 14 võttis ülesse BLUE NINE
+22:46:52	Player 14 võttis ülesse WILD
+22:46:52	Player 13 võttis ülesse YELLOW ONE
+22:46:52	Player 14 võttis ülesse GREEN TWO
+22:46:52	Player 14 võttis ülesse GREEN FIVE
+22:46:52	Player 13 võttis ülesse RED DRAWTWO
+22:46:52	Player 14 võttis ülesse GREEN FOUR
+22:46:52	Player 13 võttis ülesse RED EIGHT
+22:46:52	Player 13 võttis ülesse RED FIVE
+22:46:52	Player 13 võttis ülesse YELLOW SKIP

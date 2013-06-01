@@ -1,0 +1,51 @@
+17:19:00	Mänguga liitus Player 2
+17:19:02	Mänguga liitus Player 3
+17:19:04	Mänguga liitus Player 4
+17:19:04	3 mängijat koos
+17:19:04	Player 3 võttis ülesse YELLOW TWO
+17:19:04	Player 3 võttis ülesse WILD
+17:19:04	Player 3 võttis ülesse WILDDRAWFOUR
+17:19:04	Player 3 võttis ülesse RED SEVEN
+17:19:04	Player 3 võttis ülesse RED THREE
+17:19:04	Player 4 võttis ülesse RED NINE
+17:19:04	Player 4 võttis ülesse YELLOW SKIP
+17:19:04	Player 4 võttis ülesse RED SKIP
+17:19:04	Player 4 võttis ülesse BLUE NINE
+17:19:04	Player 4 võttis ülesse RED ZERO
+17:19:04	Player 2 võttis ülesse WILDDRAWFOUR
+17:19:04	Player 2 võttis ülesse BLUE SEVEN
+17:19:04	Player 2 võttis ülesse BLUE DRAWTWO
+17:19:04	Player 2 võttis ülesse WILD
+17:19:04	Player 2 võttis ülesse BLUE EIGHT
+17:19:20	Player 3 võttis ülesse RED EIGHT
+17:19:20	Player 3 võttis ülesse WILDDRAWFOUR
+17:19:20	Player 3 võttis ülesse WILD
+17:19:20	Player 3 võttis ülesse BLUE ONE
+17:19:20	Player 2 käis kaardi WILDDRAWFOUR
+17:19:20	Player 4kord on käia
+17:19:30	Player 4 käis kaardi BLUE NINE
+17:19:30	Player 2kord on käia
+17:19:32	Player 2 käis kaardi BLUE EIGHT
+17:19:32	Player 3kord on käia
+17:19:39	Player 4 võttis ülesse BLUE SIX
+17:19:39	Player 4 võttis ülesse GREEN ZERO
+17:19:39	Player 4 võttis ülesse GREEN SIX
+17:19:39	Player 4 võttis ülesse YELLOW ONE
+17:19:39	Player 3 käis kaardi WILDDRAWFOUR
+17:19:39	Player 2kord on käia
+17:19:44	Player 2 käis kaardi WILD
+17:19:44	Player 3kord on käia
+17:19:49	Player 4 võttis ülesse YELLOW ZERO
+17:19:49	Player 4 võttis ülesse GREEN SKIP
+17:19:49	Player 4 võttis ülesse WILDDRAWFOUR
+17:19:49	Player 4 võttis ülesse YELLOW SIX
+17:19:49	Player 3 käis kaardi WILDDRAWFOUR
+17:19:49	Player 2kord on käia
+17:19:54	Player 3 võttis ülesse BLUE TWO
+17:19:54	Player 3 võttis ülesse YELLOW EIGHT
+17:19:54	Player 2 käis kaardi BLUE DRAWTWO
+17:19:54	Player 4kord on käia
+17:19:56	Player 4 käis kaardi BLUE SIX
+17:19:56	Player 2kord on käia
+17:19:59	Player 2 käis kaardi BLUE SEVEN
+17:19:59	Mäng läbi! Võitis Player 2
